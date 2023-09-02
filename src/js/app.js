@@ -36,7 +36,6 @@
         w: 50,
         h: 50,
     };
-    console.log(player.x)
 
     var swirls = [];
 
