@@ -26,6 +26,12 @@
         ctx.fillStyle = "black";
         ctx.rect(0, 0, canvas.width, canvas.height);
         ctx.stroke();
+        enemies.forEach((enemy) => {
+            ctx.beginPath();
+            ctx.arc(enemy.x, enemy.y, 25, 0, 2 * Math.PI);
+            ctx.fillStyle = "#850606";
+            ctx.fill();
+        });
 
         requestAnimationFrame(draw);
     }
@@ -33,11 +39,11 @@
     var player = {
         x: rand(0, canvas.width + 50),
         y: rand(0, canvas.height + 50),
-        w: 50,
-        h: 50,
     };
 
     var swirls = [];
+
+    var enemies = [];
 
     let keys = {
         w: false,
@@ -107,7 +113,7 @@
 
     function castswirl() {
         if (castCooldown > 0) return;
-        castCooldown = 10
+        castCooldown = 10;
 
         const xDiff = canvas.width / 2 - mouse.x;
 
@@ -120,6 +126,16 @@
             dy: (xDiff < 0 ? 1 : -1) * Math.sin(angle) * 10,
         });
     }
+
+    function spawnEnemy() {
+        var enemy = {
+            x: rand(0, canvas.width - 50),
+            y: rand(0, canvas.height - 50),
+        };
+        enemies.push(enemy);
+    }
+
+    window.setInterval(spawnEnemy, 5000);
 
     function tick() {
         if (keys.w) {
@@ -176,8 +192,25 @@
                 continue;
             }
         }
-
         if (castCooldown > 0) castCooldown--;
+
+        for (let i = 0; i < enemies.length; i++) {
+            const xDis = player.x - enemies[i].x;
+            const yDis = player.y - enemies[i].y;
+
+            const enemyAngle = Math.atan(yDis / xDis);
+
+            const dx = Math.cos(enemyAngle) * 8;
+            const dy = Math.sin(enemyAngle) * 8;
+
+            enemies[i].x += dx;
+            enemies[i].y += dy;
+
+            // if (enemies[i].x == player.x && enemies[i].y == player.y) {
+            //     enemies[i].x == player.x;
+            //     enemies[i].y == player.y;
+            // }
+        }
     }
 
     setInterval(tick, 10);
