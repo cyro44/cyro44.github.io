@@ -200,15 +200,15 @@
 
             const enemyAngle = Math.atan(yDis / xDis);
 
-            const dx = Math.cos(enemyAngle) * 8;
-            const dy = Math.sin(enemyAngle) * 8;
+            const dx = (xDis < 0 ? -1 : 1) * Math.cos(enemyAngle) * 8;
+            const dy = (yDis < 0 ? -1 : 1) * Math.sin(enemyAngle) * 8;
 
             enemies[i].x += dx;
             enemies[i].y += dy;
 
-            // if (enemies[i].x == player.x && enemies[i].y == player.y) {
-            //     enemies[i].x == player.x;
-            //     enemies[i].y == player.y;
+            // if (xDis == 0 && yDis == 0) {
+            //     enemies[i].x = player.x;
+            //     enemies[i].y = player.y;
             // }
         }
     }
