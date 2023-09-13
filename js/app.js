@@ -39,6 +39,7 @@
     var player = {
         x: rand(0, canvas.width + 50),
         y: rand(0, canvas.height + 50),
+        hp: 100,
     };
 
     var swirls = [];
@@ -111,7 +112,7 @@
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    function castswirl() {
+    function castSwirl() {
         if (castCooldown > 0) return;
         castCooldown = 10;
 
@@ -119,23 +120,25 @@
 
         const angle = Math.atan((canvas.height / 2 - mouse.y) / xDiff);
 
-        swirls.push({
+        var swirl = {
             x: player.x - 12.5,
             y: player.y - 12.5,
             dx: (xDiff < 0 ? 1 : -1) * Math.cos(angle) * 10,
             dy: (xDiff < 0 ? 1 : -1) * Math.sin(angle) * 10,
-        });
+        }
+        swirls.push(swirl);
     }
 
     function spawnEnemy() {
         var enemy = {
             x: rand(0, canvas.width - 50),
             y: rand(0, canvas.height - 50),
+            hp: 100,
         };
         enemies.push(enemy);
     }
 
-    window.setInterval(spawnEnemy, 5000);
+    // window.setInterval(spawnEnemy, 5000);
 
     function tick() {
         if (keys.w) {
@@ -170,8 +173,8 @@
             player.y = 25;
         }
 
-        if (mouse.down && swirls.length < 69) {
-            castswirl();
+        if (mouse.down && swirls.length < 69420) {
+            castSwirl();
         }
 
         for (let i = 0; i < swirls.length; i++) {
@@ -203,13 +206,27 @@
             const dx = (xDis < 0 ? -1 : 1) * Math.cos(enemyAngle) * 8;
             const dy = (yDis < 0 ? -1 : 1) * Math.sin(enemyAngle) * 8;
 
-            enemies[i].x += dx;
-            enemies[i].y += dy;
+            // enemies[i].x += dx;
+            // enemies[i].y += dy;
 
-            // if (xDis == 0 && yDis == 0) {
-            //     enemies[i].x = player.x;
-            //     enemies[i].y = player.y;
-            // }
+            if (dx == 0 && dy == 0) {
+                enemies[i].x = player.x;
+                enemies[i].y = player.y;
+            }
+
+            for (let i = 0; i < swirls.length; i++) {
+                if (
+                    Math.abs(swirls[i].x - (enemies[i].x - 25)) < 25 &&
+                    Math.abs(swirls[i].y - (enemies[i].y - 25)) < 25
+                ) {
+                    enemies[i].hp -= 10;
+                    swirls.splice(i, 1);
+                }
+
+                if (enemies[i].hp <= 0) {
+                    enemies.splice(i, 1);
+                }
+            }
         }
     }
 
