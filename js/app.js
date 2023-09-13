@@ -125,7 +125,7 @@
             y: player.y - 12.5,
             dx: (xDiff < 0 ? 1 : -1) * Math.cos(angle) * 10,
             dy: (xDiff < 0 ? 1 : -1) * Math.sin(angle) * 10,
-        }
+        };
         swirls.push(swirl);
     }
 
@@ -138,7 +138,7 @@
         enemies.push(enemy);
     }
 
-    // window.setInterval(spawnEnemy, 5000);
+    window.setInterval(spawnEnemy, 5000);
 
     function tick() {
         if (keys.w) {
@@ -206,21 +206,21 @@
             const dx = (xDis < 0 ? -1 : 1) * Math.cos(enemyAngle) * 8;
             const dy = (yDis < 0 ? -1 : 1) * Math.sin(enemyAngle) * 8;
 
-            // enemies[i].x += dx;
-            // enemies[i].y += dy;
+            enemies[i].x += dx;
+            enemies[i].y += dy;
 
             if (dx == 0 && dy == 0) {
                 enemies[i].x = player.x;
                 enemies[i].y = player.y;
             }
 
-            for (let i = 0; i < swirls.length; i++) {
+            for (let m = 0; m < swirls.length; m++) {
                 if (
-                    Math.abs(swirls[i].x - (enemies[i].x - 25)) < 25 &&
-                    Math.abs(swirls[i].y - (enemies[i].y - 25)) < 25
+                    Math.abs(swirls[m].x - (enemies[i].x - 25)) < 25 &&
+                    Math.abs(swirls[m].y - (enemies[i].y - 25)) < 25
                 ) {
                     enemies[i].hp -= 10;
-                    swirls.splice(i, 1);
+                    swirls.splice(m, 1);
                 }
 
                 if (enemies[i].hp <= 0) {
