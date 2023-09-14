@@ -214,6 +214,10 @@
                 enemies[i].y = player.y;
             }
 
+            if (enemies[i].hp <= 0) {
+                enemies.splice(i, 1);
+            }
+
             for (let m = 0; m < swirls.length; m++) {
                 if (
                     Math.abs(swirls[m].x - (enemies[i].x - 25)) < 25 &&
@@ -221,10 +225,6 @@
                 ) {
                     enemies[i].hp -= 10;
                     swirls.splice(m, 1);
-                }
-
-                if (enemies[i].hp <= 0) {
-                    enemies.splice(i, 1);
                 }
             }
         }
