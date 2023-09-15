@@ -202,10 +202,10 @@ document.getElementById("start-button").addEventListener("click", function () {
             const xDis = player.x - enemies[i].x;
             const yDis = player.y - enemies[i].y;
 
-            const enemyAngle = Math.atan(yDis / xDis);
+            const enemyAngle = Math.atan2(yDis, xDis);
 
-            const dx = (xDis < 0 ? -1 : 1) * Math.cos(enemyAngle) * 8;
-            const dy = (yDis < 0 ? -1 : 1) * Math.sin(enemyAngle) * 8;
+            const dx = Math.cos(enemyAngle) * 8;
+            const dy = Math.sin(enemyAngle) * 8;
 
             enemies[i].x += dx;
             enemies[i].y += dy;
