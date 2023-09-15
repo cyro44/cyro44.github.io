@@ -1,4 +1,5 @@
-(function () {
+document.getElementById("start-button").addEventListener("click", function () {
+    document.getElementById("start-screen").style.display = "none";
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
     canvas.width = document.body.clientWidth;
@@ -209,7 +210,7 @@
             enemies[i].x += dx;
             enemies[i].y += dy;
 
-            if (dx == 0 && dy == 0) {
+            if (xDis == 0 && yDis == 0) {
                 enemies[i].x = player.x;
                 enemies[i].y = player.y;
             }
@@ -235,4 +236,4 @@
     requestAnimationFrame(draw);
 
     document.body.appendChild(canvas);
-})();
+});
