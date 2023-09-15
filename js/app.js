@@ -17,7 +17,7 @@ document.getElementById("start-button").addEventListener("click", function () {
             ctx.drawImage(img, swirls[i].x, swirls[i].y, 25, 25);
         }
         ctx.beginPath();
-        ctx.arc(canvas.width / 2, canvas.height / 2, 1, 0, 2 * Math.PI);
+        ctx.arc(1000, 1000, 1, 0, 2 * Math.PI);
         ctx.fillStyle = "black";
         ctx.fill();
         ctx.beginPath();
@@ -25,7 +25,7 @@ document.getElementById("start-button").addEventListener("click", function () {
         ctx.fillStyle = "black";
         ctx.fill();
         ctx.fillStyle = "black";
-        ctx.rect(0, 0, canvas.width, canvas.height);
+        ctx.rect(0, 0, 2000, 2000);
         ctx.stroke();
         enemies.forEach((enemy) => {
             ctx.beginPath();
@@ -38,8 +38,8 @@ document.getElementById("start-button").addEventListener("click", function () {
     }
 
     var player = {
-        x: rand(0, canvas.width + 50),
-        y: rand(0, canvas.height + 50),
+        x: rand(0, 1950),
+        y: rand(0, 1950),
         hp: 100,
     };
 
@@ -117,7 +117,7 @@ document.getElementById("start-button").addEventListener("click", function () {
         if (castCooldown > 0) return;
         castCooldown = 10;
 
-        const xDiff = canvas.width / 2 - mouse.x;
+        const xDiff = 1000 - mouse.x;
 
         const angle = Math.atan((canvas.height / 2 - mouse.y) / xDiff);
 
@@ -132,8 +132,8 @@ document.getElementById("start-button").addEventListener("click", function () {
 
     function spawnEnemy() {
         var enemy = {
-            x: rand(0, canvas.width - 50),
-            y: rand(0, canvas.height - 50),
+            x: rand(0, 1950),
+            y: rand(0, 1950),
             hp: 100,
         };
         enemies.push(enemy);
@@ -158,16 +158,16 @@ document.getElementById("start-button").addEventListener("click", function () {
             player.x += 3;
         }
 
-        if (player.x >= canvas.width - 25) {
-            player.x = canvas.width - 25;
+        if (player.x >= 1975) {
+            player.x = 1975;
         }
 
         if (player.x <= 25) {
             player.x = 25;
         }
 
-        if (player.y >= canvas.height - 25) {
-            player.y = canvas.height - 25;
+        if (player.y >= 1975) {
+            player.y = 1975;
         }
 
         if (player.y <= 25) {
@@ -184,13 +184,13 @@ document.getElementById("start-button").addEventListener("click", function () {
         }
 
         for (let i = 0; i < swirls.length; i++) {
-            if (swirls[i].y < 0 || swirls[i].y > canvas.height - 25) {
+            if (swirls[i].y < 0 || swirls[i].y > 1975) {
                 swirls.splice(i, 1);
                 i--;
                 continue;
             }
 
-            if (swirls[i].x < 0 || swirls[i].x > canvas.width - 25) {
+            if (swirls[i].x < 0 || swirls[i].x > 1975) {
                 swirls.splice(i, 1);
                 i--;
                 continue;
@@ -204,8 +204,8 @@ document.getElementById("start-button").addEventListener("click", function () {
 
             const enemyAngle = Math.atan2(yDis, xDis);
 
-            const dx = Math.cos(enemyAngle) * 8;
-            const dy = Math.sin(enemyAngle) * 8;
+            const dx = Math.cos(enemyAngle) * 4;
+            const dy = Math.sin(enemyAngle) * 4;
 
             enemies[i].x += dx;
             enemies[i].y += dy;
