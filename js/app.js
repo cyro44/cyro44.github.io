@@ -117,9 +117,10 @@ document.getElementById("start-button").addEventListener("click", function () {
         if (castCooldown > 0) return;
         castCooldown = 10;
 
-        const xDiff = 1000 - mouse.x;
+        const xDiff = canvas.width / 2 - mouse.x;
+        const yDiff = canvas.height / 2 - mouse.y;
 
-        const angle = Math.atan((canvas.height / 2 - mouse.y) / xDiff);
+        const angle = Math.atan(yDiff / xDiff);
 
         var swirl = {
             x: player.x - 12.5,
