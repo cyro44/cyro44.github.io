@@ -159,102 +159,102 @@ document.getElementById("start-button").addEventListener("click", function () {
     window.setInterval(spawnEnemy, 2500);
 
     function tick() {
-        if (!gameOver) {
-            if (keys.w) {
-                player.y -= 3;
+        if (gameOver) return;
+
+        if (keys.w) {
+            player.y -= 3;
+        }
+
+        if (keys.a) {
+            player.x -= 3;
+        }
+
+        if (keys.s) {
+            player.y += 3;
+        }
+
+        if (keys.d) {
+            player.x += 3;
+        }
+
+        if (player.x >= 1975) {
+            player.x = 1975;
+        }
+
+        if (player.x <= 25) {
+            player.x = 25;
+        }
+
+        if (player.y >= 1975) {
+            player.y = 1975;
+        }
+
+        if (player.y <= 25) {
+            player.y = 25;
+        }
+
+        if (mouse.down && swirls.length < 69420) {
+            castSwirl();
+        }
+
+        for (let i = 0; i < swirls.length; i++) {
+            swirls[i].x += swirls[i].dx;
+            swirls[i].y += swirls[i].dy;
+        }
+
+        for (let i = 0; i < swirls.length; i++) {
+            if (swirls[i].y < 0 || swirls[i].y > 1975) {
+                swirls.splice(i, 1);
+                i--;
+                continue;
             }
 
-            if (keys.a) {
-                player.x -= 3;
+            if (swirls[i].x < 0 || swirls[i].x > 1975) {
+                swirls.splice(i, 1);
+                i--;
+                continue;
+            }
+        }
+        if (castCooldown > 0) castCooldown--;
+
+        for (let i = 0; i < enemies.length; i++) {
+            const xDis = player.x - enemies[i].x;
+            const yDis = player.y - enemies[i].y;
+
+            const enemyAngle = Math.atan2(yDis, xDis);
+
+            const dx = Math.cos(enemyAngle) * 5;
+            const dy = Math.sin(enemyAngle) * 5;
+
+            enemies[i].x += dx;
+            enemies[i].y += dy;
+
+            if (xDis == 0 && yDis == 0) {
+                enemies[i].x = player.x;
+                enemies[i].y = player.y;
             }
 
-            if (keys.s) {
-                player.y += 3;
+            if (enemies[i].hp <= 0) {
+                enemies.splice(i, 1);
             }
 
-            if (keys.d) {
-                player.x += 3;
+            if (xDis >= -3 && xDis <= 3) {
+                player.hp -= 2;
             }
 
-            if (player.x >= 1975) {
-                player.x = 1975;
-            }
-
-            if (player.x <= 25) {
-                player.x = 25;
-            }
-
-            if (player.y >= 1975) {
-                player.y = 1975;
-            }
-
-            if (player.y <= 25) {
-                player.y = 25;
-            }
-
-            if (mouse.down && swirls.length < 69420) {
-                castSwirl();
-            }
-
-            for (let i = 0; i < swirls.length; i++) {
-                swirls[i].x += swirls[i].dx;
-                swirls[i].y += swirls[i].dy;
-            }
-
-            for (let i = 0; i < swirls.length; i++) {
-                if (swirls[i].y < 0 || swirls[i].y > 1975) {
-                    swirls.splice(i, 1);
-                    i--;
-                    continue;
+            for (let m = 0; m < swirls.length; m++) {
+                if (
+                    Math.abs(swirls[m].x - (enemies[i].x - 25)) < 25 &&
+                    Math.abs(swirls[m].y - (enemies[i].y - 25)) < 25
+                ) {
+                    enemies[i].hp -= swirls[m].dmg;
+                    swirls.splice(m, 1);
                 }
-
-                if (swirls[i].x < 0 || swirls[i].x > 1975) {
-                    swirls.splice(i, 1);
-                    i--;
-                    continue;
-                }
             }
-            if (castCooldown > 0) castCooldown--;
-
-            for (let i = 0; i < enemies.length; i++) {
-                const xDis = player.x - enemies[i].x;
-                const yDis = player.y - enemies[i].y;
-
-                const enemyAngle = Math.atan2(yDis, xDis);
-
-                const dx = Math.cos(enemyAngle) * 5;
-                const dy = Math.sin(enemyAngle) * 5;
-
-                enemies[i].x += dx;
-                enemies[i].y += dy;
-
-                if (xDis == 0 && yDis == 0) {
-                    enemies[i].x = player.x;
-                    enemies[i].y = player.y;
-                }
-
-                if (enemies[i].hp <= 0) {
-                    enemies.splice(i, 1);
-                }
-
-                if (xDis >= -3 && xDis <= 3) {
-                    player.hp -= 2;
-                }
-
-                for (let m = 0; m < swirls.length; m++) {
-                    if (
-                        Math.abs(swirls[m].x - (enemies[i].x - 25)) < 25 &&
-                        Math.abs(swirls[m].y - (enemies[i].y - 25)) < 25
-                    ) {
-                        enemies[i].hp -= swirls[m].dmg;
-                        swirls.splice(m, 1);
-                    }
-                }
-            }
-            if (player.hp <= 0) {
-                gameOver = true;
-                return;
-            }
+        }
+        if (player.hp <= 0) {
+            gameOver = true;
+            return;
         }
     }
 
