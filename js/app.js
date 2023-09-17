@@ -34,7 +34,7 @@ document.getElementById("start-button").addEventListener("click", function () {
             ctx.fill();
             for (let i = 0; i < enemies.length; i++) {
                 ctx.fillStyle = "#850606";
-                ctx.rect(enemies[i].x - 50, enemies[i].y + 40, 100 * (enemies[i].hp / 100), 10);
+                ctx.rect(enemies[i].x - 50, enemies[i].y + 40, 100 * (enemies[i].hp / enemies[i].maxHp), 10);
                 ctx.fill();
             }
         });
@@ -142,6 +142,7 @@ document.getElementById("start-button").addEventListener("click", function () {
             x: rand(0, 1950),
             y: rand(0, 1950),
             hp: 100,
+            maxHp: 100
         };
         enemies.push(enemy);
     }
@@ -211,8 +212,8 @@ document.getElementById("start-button").addEventListener("click", function () {
 
             const enemyAngle = Math.atan2(yDis, xDis);
 
-            const dx = Math.cos(enemyAngle) * 4;
-            const dy = Math.sin(enemyAngle) * 4;
+            const dx = Math.cos(enemyAngle) * 5;
+            const dy = Math.sin(enemyAngle) * 5;
 
             enemies[i].x += dx;
             enemies[i].y += dy;
