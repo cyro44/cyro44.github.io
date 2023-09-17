@@ -32,6 +32,11 @@ document.getElementById("start-button").addEventListener("click", function () {
             ctx.arc(enemy.x, enemy.y, 25, 0, 2 * Math.PI);
             ctx.fillStyle = "#850606";
             ctx.fill();
+            for (let i = 0; i < enemies.length; i++) {
+                ctx.fillStyle = "#850606";
+                ctx.rect(enemies[i].x - 50, enemies[i].y + 40, 100 * (enemies[i].hp / 100), 10);
+                ctx.fill();
+            }
         });
 
         requestAnimationFrame(draw);
@@ -127,6 +132,7 @@ document.getElementById("start-button").addEventListener("click", function () {
             y: player.y - 12.5,
             dx: (xDiff < 0 ? 1 : -1) * Math.cos(angle) * 10,
             dy: (xDiff < 0 ? 1 : -1) * Math.sin(angle) * 10,
+            dmg: 10,
         };
         swirls.push(swirl);
     }
@@ -225,7 +231,7 @@ document.getElementById("start-button").addEventListener("click", function () {
                     Math.abs(swirls[m].x - (enemies[i].x - 25)) < 25 &&
                     Math.abs(swirls[m].y - (enemies[i].y - 25)) < 25
                 ) {
-                    enemies[i].hp -= 10;
+                    enemies[i].hp -= swirls[m].dmg;
                     swirls.splice(m, 1);
                 }
             }
