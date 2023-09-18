@@ -238,8 +238,8 @@ document.getElementById("start-button").addEventListener("click", function () {
                 enemies.splice(i, 1);
             }
 
-            if (xDis >= -3 && xDis <= 3) {
-                player.hp -= 2;
+            if (xDis >= -3 && xDis <= 3 && yDis >= -3 && yDis <= 3) {
+                player.hp -= 1;
             }
 
             for (let m = 0; m < swirls.length; m++) {
