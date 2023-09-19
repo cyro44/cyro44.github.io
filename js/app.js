@@ -50,6 +50,14 @@ document.getElementById("start-button").addEventListener("click", function () {
                 ctx.fill();
             }
         });
+        if (gameOver) {
+            ctx.resetTransform();
+            ctx.font = "Bold 60px Courier New";
+            ctx.fillStyle = "black";
+            ctx.textAlign = "center";
+            ctx.fillText("You Died", canvas.width / 2, canvas.height / 2 - 35);
+            ctx.fillText("Reload To Try Again", canvas.width / 2, canvas.height / 2 + 35);
+        }
 
         requestAnimationFrame(draw);
     }
@@ -262,6 +270,10 @@ document.getElementById("start-button").addEventListener("click", function () {
         }
         if (player.hp <= 0) {
             gameOver = true;
+            ctx.font = "30px";
+            ctx.fillStyle = "black";
+            ctx.textAlign = "center";
+            ctx.fillText("You Died", canvas.width / 2, canvas.height / 2);
             return;
         }
     }
