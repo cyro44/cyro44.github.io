@@ -13,6 +13,13 @@ document.getElementById("start-button").addEventListener("click", function () {
             canvas.width / 2 - player.x,
             canvas.height / 2 - player.y
         );
+        ctx.fillStyle = "#000";
+        ctx.fillRect(
+            player.x - 50,
+            player.y + 40,
+            100 * (player.hp / player.maxHp),
+            10
+        );
         for (let i = 0; i < swirls.length; i++) {
             ctx.drawImage(img, swirls[i].x, swirls[i].y, 25, 25);
         }
@@ -51,6 +58,7 @@ document.getElementById("start-button").addEventListener("click", function () {
         x: rand(0, 1950),
         y: rand(0, 1950),
         hp: 100,
+        maxHp: 100,
     };
 
     let gameOver = false;
