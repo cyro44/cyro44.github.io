@@ -13,6 +13,8 @@ document.getElementById("start-button").addEventListener("click", function () {
             canvas.width / 2 - player.x,
             canvas.height / 2 - player.y
         );
+        ctx.fillStyle = "grey";
+        ctx.fillRect(player.x - 50, player.y + 40, player.maxHp, 10);
         ctx.fillStyle = "#000";
         ctx.fillRect(
             player.x - 50,
@@ -40,14 +42,20 @@ document.getElementById("start-button").addEventListener("click", function () {
             ctx.fillStyle = "#850606";
             ctx.fill();
             for (let i = 0; i < enemies.length; i++) {
+                ctx.fillStyle = "grey";
+                ctx.fillRect(
+                    enemies[i].x - 50,
+                    enemies[i].y + 40,
+                    enemies[i].maxHp,
+                    10
+                );
                 ctx.fillStyle = "#850606";
-                ctx.rect(
+                ctx.fillRect(
                     enemies[i].x - 50,
                     enemies[i].y + 40,
                     100 * (enemies[i].hp / enemies[i].maxHp),
                     10
                 );
-                ctx.fill();
             }
         });
         if (gameOver) {
@@ -55,8 +63,12 @@ document.getElementById("start-button").addEventListener("click", function () {
             ctx.font = "Bold 60px Courier New";
             ctx.fillStyle = "black";
             ctx.textAlign = "center";
-            ctx.fillText("You Died", canvas.width / 2, canvas.height / 2 - 35);
-            ctx.fillText("Reload To Try Again", canvas.width / 2, canvas.height / 2 + 35);
+            ctx.fillText("You Died!", canvas.width / 2, canvas.height / 2 - 35);
+            ctx.fillText(
+                "Reload To Try Again",
+                canvas.width / 2,
+                canvas.height / 2 + 35
+            );
         }
 
         requestAnimationFrame(draw);
