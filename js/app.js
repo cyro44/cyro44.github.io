@@ -70,6 +70,13 @@ document.getElementById("start-button").addEventListener("click", function () {
                 canvas.height / 2 + 35
             );
         }
+        if (!gameOver) {
+            ctx.resetTransform();
+            ctx.fillStyle = "black";
+            ctx.font = "16px Courier New";
+            ctx.fillText("Health: " + player.hp, 25, 25);
+            ctx.fillText("Kills: " + player.killCount, 25, 50);
+        }
 
         requestAnimationFrame(draw);
     }
@@ -79,6 +86,7 @@ document.getElementById("start-button").addEventListener("click", function () {
         y: rand(0, 1950),
         hp: 100,
         maxHp: 100,
+        killCount: 0,
     };
 
     let gameOver = false;
@@ -264,6 +272,7 @@ document.getElementById("start-button").addEventListener("click", function () {
 
             if (enemies[i].hp <= 0) {
                 enemies.splice(i, 1);
+                player.killCount++;
             }
 
             if (xDis >= -3 && xDis <= 3 && yDis >= -3 && yDis <= 3) {
