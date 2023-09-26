@@ -60,6 +60,7 @@ main {
 .start-screen button:active {
     box-shadow: none;
     transform: translateY(4px);
+    overflow: hidden;
 }
 
 .start-screen h1 {

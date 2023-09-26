@@ -1,5 +1,8 @@
 document.getElementById("start-button").addEventListener("click", function () {
     document.getElementById("start-screen").style.display = "none";
+    document.getElementById("menu-btn").style.display = "none"
+    document.getElementById("main").style.display = "none";
+    document.getElementById("nav-bar").style.display = "none";
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
     canvas.width = document.body.clientWidth;
