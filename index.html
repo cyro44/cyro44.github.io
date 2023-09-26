@@ -4,15 +4,54 @@
         <link rel="stylesheet" href="css/styles.css" />
         <script src="js/app.js" defer></script>
         <link rel="icon" type="image/x-icon" href="media/favicon.ico" />
+        <script
+            src="https://kit.fontawesome.com/f5e9c75c8c.js"
+            crossorigin="anonymous"
+        ></script>
+        <script src="js/startscreen.js" defer></script>
     </head>
 
     <body>
         <img id="swirl" src="media/swirl.png" style="display: none" />
-
-        <div class="start-screen" id="start-screen">
-            <h1>Shooter</h1>
-            <p>Shoot the enemies</p>
-            <button id="start-button">Start Game</button>
-        </div>
+        <main>
+            <div class="start-screen" id="start-screen">
+                <h1>Shooter</h1>
+                <p>Shoot the enemies</p>
+                <button id="start-button">Start Game</button>
+            </div>
+        </main>
+        <nav>
+            <div id="nav-links">
+                <a class="nav-link" href="https://github.com/cyro44">
+                    <h2>Github</h2>
+                    <img
+                        class="nav-link-img"
+                        src="media/kitten.jpg"
+                        draggable="false"
+                    />
+                </a>
+                <a class="nav-link" href="https://mail.google.com">
+                    <h2>Email</h2>
+                    <img
+                        class="nav-link-img"
+                        src="media/kitten1.jpg"
+                        draggable="false"
+                    />
+                </a>
+                <a class="nav-link" href="https://discord.com">
+                    <h2>Discord</h2>
+                    <img
+                        class="nav-link-img"
+                        src="media/kitten2.jpg"
+                        draggable="false"
+                    />
+                </a>
+            </div>
+        </nav>
+        <button class="menu-btn" onclick="toggleNav()">
+            <div class="menu-icon">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </button>
     </body>
 </html>
