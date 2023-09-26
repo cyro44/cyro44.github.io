@@ -7,7 +7,8 @@ document.getElementById("start-button").addEventListener("click", function () {
     const ctx = canvas.getContext("2d");
     canvas.width = document.body.clientWidth;
     canvas.height = document.body.clientHeight;
-    const img = document.getElementById("swirl");
+    const swirlImg = document.getElementById("swirl");
+    const coin = document.getElementById("coin");
 
     function draw() {
         ctx.resetTransform();
@@ -26,7 +27,7 @@ document.getElementById("start-button").addEventListener("click", function () {
             10
         );
         for (let i = 0; i < swirls.length; i++) {
-            ctx.drawImage(img, swirls[i].x, swirls[i].y, 25, 25);
+            ctx.drawImage(swirlImg, swirls[i].x, swirls[i].y, 25, 25);
         }
         ctx.beginPath();
         ctx.arc(1000, 1000, 1, 0, 2 * Math.PI);
@@ -59,6 +60,17 @@ document.getElementById("start-button").addEventListener("click", function () {
                     100 * (enemies[i].hp / enemies[i].maxHp),
                     10
                 );
+                if (enemies[i].hp <= 0) {
+                    coins.push({
+                        x: enemies[i].x - 12.5,
+                        y: enemies[i].y - 12.5,
+                    });
+                    enemies.splice(i, 1);
+                    i--;
+                }
+                for (let i = 0; i < coins.length; i++) {
+                    ctx.drawImage(coin, coins[i].x, coins[i].y, 25, 25);
+                }
             }
         });
         if (gameOver) {
@@ -97,6 +109,8 @@ document.getElementById("start-button").addEventListener("click", function () {
     var swirls = [];
 
     var enemies = [];
+
+    let coins = [];
 
     let keys = {
         w: false,
@@ -276,6 +290,7 @@ document.getElementById("start-button").addEventListener("click", function () {
             if (enemies[i].hp <= 0) {
                 enemies.splice(i, 1);
                 player.killCount++;
+                i--;
             }
 
             if (xDis >= -3 && xDis <= 3 && yDis >= -3 && yDis <= 3) {
@@ -284,6 +299,7 @@ document.getElementById("start-button").addEventListener("click", function () {
 
             for (let m = 0; m < swirls.length; m++) {
                 if (
+                    enemies[i] &&
                     Math.abs(swirls[m].x - (enemies[i].x - 25)) < 25 &&
                     Math.abs(swirls[m].y - (enemies[i].y - 25)) < 25
                 ) {
