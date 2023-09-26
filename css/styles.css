@@ -8,6 +8,7 @@ canvas {
 
 body {
     background-color: #000000;
+    overflow: hidden;
 }
 
 main {
@@ -19,6 +20,7 @@ main {
     position: relative;
     z-index: 2;
     transition: transform 0.6s cubic-bezier(0.42, 0, 0.58, 1);
+    overflow: hidden;
 }
 
 .center {
