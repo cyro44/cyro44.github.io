@@ -308,6 +308,15 @@ document.getElementById("start-button").addEventListener("click", function () {
                 }
             }
         }
+        for (let i = 0; i < coins.length; i++) {
+            if (
+                Math.abs(player.x - coins[i].x < 12.5) &&
+                Math.abs(player.y - coins[i].y < 12.5)
+            ) {
+                coins.splice(i, 1);
+                i--;
+            }
+        }
         if (player.hp <= 0) {
             gameOver = true;
             ctx.font = "30px";
