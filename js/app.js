@@ -8,7 +8,7 @@ document.getElementById("start-button").addEventListener("click", function () {
     canvas.width = document.body.clientWidth;
     canvas.height = document.body.clientHeight;
     const swirlImg = document.getElementById("swirl");
-    const coin = document.getElementById("coin");
+    const coinImg = document.getElementById("coin");
 
     function draw() {
         ctx.resetTransform();
@@ -60,17 +60,18 @@ document.getElementById("start-button").addEventListener("click", function () {
                     100 * (enemies[i].hp / enemies[i].maxHp),
                     10
                 );
+                var coin = {
+                    x: enemies[i].x - 12.5,
+                    y: enemies[i].y - 12.5,
+                };
                 if (enemies[i].hp <= 0) {
-                    coins.push({
-                        x: enemies[i].x - 12.5,
-                        y: enemies[i].y - 12.5,
-                    });
+                    coins.push(coin);
                     enemies.splice(i, 1);
                     i--;
                 }
-                for (let i = 0; i < coins.length; i++) {
-                    ctx.drawImage(coin, coins[i].x, coins[i].y, 25, 25);
-                }
+                coins.forEach((coin) => {
+                    ctx.drawImage(coinImg, coin.x, coin.y, 25, 25);
+                });
             }
         });
         if (gameOver) {
@@ -83,6 +84,11 @@ document.getElementById("start-button").addEventListener("click", function () {
                 "Reload To Try Again",
                 canvas.width / 2,
                 canvas.height / 2 + 35
+            );
+            ctx.fillText(
+                "Kills: " + player.killCount,
+                canvas.width / 2,
+                canvas.height / 2 + 105
             );
         }
         if (!gameOver) {
@@ -310,8 +316,8 @@ document.getElementById("start-button").addEventListener("click", function () {
         }
         for (let i = 0; i < coins.length; i++) {
             if (
-                Math.abs(player.x - coins[i].x < 12.5) &&
-                Math.abs(player.y - coins[i].y < 12.5)
+                Math.abs(player.x - coins[i].x < 25) &&
+                Math.abs(player.y - coins[i].y < 25)
             ) {
                 coins.splice(i, 1);
                 i--;
