@@ -67,6 +67,7 @@ document.getElementById("start-button").addEventListener("click", function () {
                 if (enemies[i].hp <= 0) {
                     coins.push(coin);
                     enemies.splice(i, 1);
+                    player.killCount++;
                     i--;
                 }
                 coins.forEach((coin) => {
@@ -291,12 +292,6 @@ document.getElementById("start-button").addEventListener("click", function () {
             if (xDis == 0 && yDis == 0) {
                 enemies[i].x = player.x;
                 enemies[i].y = player.y;
-            }
-
-            if (enemies[i].hp <= 0) {
-                enemies.splice(i, 1);
-                player.killCount++;
-                i--;
             }
 
             if (xDis >= -3 && xDis <= 3 && yDis >= -3 && yDis <= 3) {
