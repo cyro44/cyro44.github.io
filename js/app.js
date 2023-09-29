@@ -213,7 +213,6 @@ function tick() {
         ) {
             player.money++;
             localStorage.setItem("balance", player.money);
-            console.log("imposter");
             coins.splice(i, 1);
             i--;
         }
