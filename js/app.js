@@ -345,3 +345,14 @@ window.toggleNav = () => {
     document.body.dataset.nav =
         document.body.dataset.nav === "true" ? "false" : "true";
 };
+
+document.querySelector(".shopBtn").addEventListener("click", function () {
+    var shop = document.querySelector(".shop");
+    shop.style.display = shop.style.display === "none" ? "block" : "none";
+});
+
+var modal = document.getElementsByClassName("shop")[0];
+var span = document.getElementsByClassName("close")[0];
+span.onclick = function () {
+    modal.style.display = "none";
+};

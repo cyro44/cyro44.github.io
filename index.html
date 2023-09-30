@@ -8,6 +8,10 @@
             src="https://kit.fontawesome.com/f5e9c75c8c.js"
             crossorigin="anonymous"
         ></script>
+        <link
+            href="https://fonts.googleapis.com/css?family=Rubik"
+            rel="stylesheet"
+        />
     </head>
 
     <body>
@@ -15,10 +19,40 @@
         <img id="coin" src="media/coin.png" style="display: none" />
         <main id="main">
             <div class="start-screen" id="start-screen">
-                <h1>Shooter</h1>
+                <h1 style="font-size: 50px">Shooter</h1>
                 <p>Shoot the enemies</p>
                 <button id="start-button">Start Game</button>
-                <p>Coins: </p>
+                <br />
+                <button class="shopBtn">Shop</button>
+                <div class="shop" style="display: none">
+                    <span class="close"
+                        ><i class="fa-solid fa-square-xmark"></i
+                    ></span>
+                    <h1 style="font-size: 50px">Shop</h1>
+                    <br />
+                    <div class="shopItem">
+                        <h1>Damage</h1>
+                        <h3>Level:</h3>
+                        <p>Upgrade damage done by attacks by 2hp per level.</p>
+                        <button class="upgradeBtn">Upgrade</button>
+                    </div>
+                    <div class="shopItem">
+                        <h1>Speed</h1>
+                        <h3>Level:</h3>
+                        <p>Upgrade movement speed by 0.5 per level.</p>
+                        <button class="upgradeBtn">Upgrade</button>
+                    </div>
+                    <div class="shopItem">
+                        <h1>Enemies</h1>
+                        <h3>Level:</h3>
+                        <p>
+                            Enemies drop more coins, but will be faster and do
+                            more damage.
+                        </p>
+                        <button class="upgradeBtn">Upgrade</button>
+                    </div>
+                </div>
+                <p>Coins:</p>
                 <p id="coins"></p>
             </div>
         </main>
