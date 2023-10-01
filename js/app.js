@@ -349,7 +349,7 @@ span.onclick = function () {
 
 const damageUpgrade = document.getElementById("upgradeDamage");
 damageUpgrade.onclick = function () {
-    if (player.money <= 5 || player.damage >= 20) {
+    if (player.money < 5 || player.damage >= 20) {
         damageUpgrade.innerHTML = "Too Poor or Max Level";
         return;
     }
@@ -367,7 +367,7 @@ damageUpgrade.onclick = function () {
 
 const speedUpgrade = document.getElementById("upgradeSpeed");
 speedUpgrade.onclick = function () {
-    if (player.money <= 5 || player.speed >= 7) {
+    if (player.money < 5 || player.speed >= 7) {
         speedUpgrade.innerHTML = "Too Poor or Max Level";
         return;
     }
@@ -383,7 +383,7 @@ speedUpgrade.onclick = function () {
 
 const healthUpgrade = document.getElementById("upgradeHealth");
 healthUpgrade.onclick = function () {
-    if (player.money <= 5 || healthLvl >= 20) {
+    if (player.money < 5 || player.hp >= 300) {
         healthUpgrade.innerHTML = "Too Poor or Max Level";
         return;
     }
@@ -399,7 +399,7 @@ healthUpgrade.onclick = function () {
 
 const enemyUpgrade = document.getElementById("upgradeEnemy");
 enemyUpgrade.onclick = function () {
-    if (player.money <= 10 || enemyLvl >= 8) {
+    if (player.money < 10 || enemyLvl >= 8) {
         enemyUpgrade.innerHTML = "Too Poor or Max Level";
         return;
     }
