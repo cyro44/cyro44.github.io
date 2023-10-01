@@ -176,8 +176,8 @@ body[data-nav="true"] > nav > #nav-links {
 }
 
 .shopItem {
-    aspect-ratio: 1 / 1.8;
-    width: 20em;
+    width: 18rem;
+    height: 18rem;
     background-color: #1e2124;
     border-radius: 1vmin;
     padding: 2rem 3rem;

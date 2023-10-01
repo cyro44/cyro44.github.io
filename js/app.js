@@ -14,7 +14,7 @@ function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.translate(canvas.width / 2 - player.x, canvas.height / 2 - player.y);
     ctx.fillStyle = "grey";
-    ctx.fillRect(player.x - 50, player.y + 40, player.maxHp, 10);
+    ctx.fillRect(player.x - 50, player.y + 40, 100, 10);
     ctx.fillStyle = "#000";
     ctx.fillRect(
         player.x - 50,
@@ -43,12 +43,7 @@ function draw() {
         ctx.fill();
         for (let i = 0; i < enemies.length; i++) {
             ctx.fillStyle = "grey";
-            ctx.fillRect(
-                enemies[i].x - 50,
-                enemies[i].y + 40,
-                100,
-                10
-            );
+            ctx.fillRect(enemies[i].x - 50, enemies[i].y + 40, 100, 10);
             ctx.fillStyle = "#850606";
             ctx.fillRect(
                 enemies[i].x - 50,
@@ -214,8 +209,8 @@ function tick() {
 var player = {
     x: rand(0, 1950),
     y: rand(0, 1950),
-    hp: 100,
-    maxHp: 100,
+    hp: Number(localStorage.getItem("health")) + 100,
+    maxHp: Number(localStorage.getItem("health")) + 100,
     killCount: 0,
     money: Number(localStorage.getItem("balance")),
     speed: Number(localStorage.getItem("speed")) + 3,
@@ -336,6 +331,14 @@ window.toggleNav = () => {
 document.querySelector(".shopBtn").addEventListener("click", function () {
     const shop = document.querySelector(".shop");
     shop.style.display = shop.style.display === "none" ? "block" : "none";
+    let damageLvl = Number(localStorage.getItem("dmgLvl")) || 0;
+    let speedLvl = Number(localStorage.getItem("speedLvl")) || 0;
+    let enemyLvl = Number(localStorage.getItem("enemyLvl")) || 0;
+    let healthLvl = Number(localStorage.getItem("healthLvl")) || 0;
+    document.getElementById("dmgLvl").innerHTML = "Level: " + damageLvl;
+    document.getElementById("speedLvl").innerHTML = "Level: " + speedLvl;
+    document.getElementById("enemyLvl").innerHTML = "Level: " + enemyLvl;
+    document.getElementById("healthLvl").innerHTML = "Level: " + healthLvl;
 });
 
 const modal = document.getElementsByClassName("shop")[0];
@@ -347,35 +350,64 @@ span.onclick = function () {
 const damageUpgrade = document.getElementById("upgradeDamage");
 damageUpgrade.onclick = function () {
     if (player.money <= 5 || player.damage >= 20) {
+        damageUpgrade.innerHTML = "Too Poor or Max Level";
         return;
     }
+    let damageLvl = Number(localStorage.getItem("dmgLvl")) || 0;
+    damageLvl++;
+    localStorage.setItem("dmgLvl", damageLvl);
+    document.getElementById("dmgLvl").innerHTML = "Level: " + damageLvl;
     player.money -= 5;
     localStorage.setItem("balance", player.money);
     localStorage.setItem(
         "damage",
         parseInt(localStorage.getItem("damage")) + 2
     );
-    console.log(player.money);
 };
 
 const speedUpgrade = document.getElementById("upgradeSpeed");
 speedUpgrade.onclick = function () {
     if (player.money <= 5 || player.speed >= 7) {
+        speedUpgrade.innerHTML = "Too Poor or Max Level";
         return;
     }
+    let speedLvl = Number(localStorage.getItem("speedLvl")) || 0;
+    speedLvl++;
+    localStorage.setItem("speedLvl", speedLvl);
+    document.getElementById("speedLvl").innerHTML = "Level: " + speedLvl;
     player.speed += 0.5;
     player.money -= 5;
     localStorage.setItem("balance", player.money);
     localStorage.setItem("speed", player.speed);
-    console.log(player.damage);
+};
+
+const healthUpgrade = document.getElementById("upgradeHealth");
+healthUpgrade.onclick = function () {
+    if (player.money <= 5 || healthLvl >= 20) {
+        healthUpgrade.innerHTML = "Too Poor or Max Level";
+        return;
+    }
+    let healthLvl = Number(localStorage.getItem("healthLvl")) || 0;
+    healthLvl++;
+    localStorage.setItem("healthLvl", healthLvl);
+    document.getElementById("healthLvl").innerHTML = "Level: " + healthLvl;
+    player.hp += 5;
+    player.money -= 5;
+    localStorage.setItem("balance", player.money);
+    localStorage.setItem("health", player.hp);
 };
 
 const enemyUpgrade = document.getElementById("upgradeEnemy");
 enemyUpgrade.onclick = function () {
-    // if (player.money <= 5) {
-    //     return;
-    // }
+    if (player.money <= 10 || enemyLvl >= 8) {
+        enemyUpgrade.innerHTML = "Too Poor or Max Level";
+        return;
+    }
     player.money -= 10;
+    let enemyLvl = Number(localStorage.getItem("enemyLvl")) || 0;
+    enemyLvl++;
+    localStorage.setItem("enemyLvl", enemyLvl);
+    document.getElementById("enemyLvl").innerHTML = "Level: " + enemyLvl;
     localStorage.setItem("balance", player.money);
     localStorage.setItem(
         "enemyDamage",
