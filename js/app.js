@@ -1,29 +1,13 @@
-document.getElementById("start-button").addEventListener("click", init);
-function init() {
-    setInterval(tick, 10);
-
-    requestAnimationFrame(draw);
-
-    window.setInterval(spawnEnemy, 2500);
-
-    document.body.appendChild(canvas);
-
-    document.getElementById("start-screen").style.display = "none";
-    document.getElementById("menu-btn").style.display = "none";
-    document.getElementById("main").style.display = "none";
-    document.getElementById("nav-bar").style.display = "none";
-}
-
-document.getElementById("coins").innerHTML = Number(
-    localStorage.getItem("balance")
-);
-
 const canvas = document.createElement("canvas");
 const ctx = canvas.getContext("2d");
 canvas.width = document.body.clientWidth;
 canvas.height = document.body.clientHeight;
 const swirlImg = document.getElementById("swirl");
 const coinImg = document.getElementById("coin");
+
+if (localStorage.getItem("damage") == null) {
+    localStorage.setItem("damage", 10);
+}
 
 function draw() {
     ctx.resetTransform();
@@ -62,7 +46,7 @@ function draw() {
             ctx.fillRect(
                 enemies[i].x - 50,
                 enemies[i].y + 40,
-                enemies[i].maxHp,
+                100,
                 10
             );
             ctx.fillStyle = "#850606";
@@ -75,7 +59,7 @@ function draw() {
             var coin = {
                 x: enemies[i].x - 12.5,
                 y: enemies[i].y - 12.5,
-                value: 1,
+                value: Number(localStorage.getItem("coinValue")) + 1,
             };
             if (enemies[i].hp <= 0) {
                 coins.push(coin);
@@ -119,19 +103,19 @@ function tick() {
     if (gameOver) return;
 
     if (keys.w) {
-        player.y -= 3;
+        player.y -= player.speed;
     }
 
     if (keys.a) {
-        player.x -= 3;
+        player.x -= player.speed;
     }
 
     if (keys.s) {
-        player.y += 3;
+        player.y += player.speed;
     }
 
     if (keys.d) {
-        player.x += 3;
+        player.x += player.speed;
     }
 
     if (player.x >= 1975) {
@@ -192,7 +176,7 @@ function tick() {
         }
 
         if (xDis >= -3 && xDis <= 3 && yDis >= -3 && yDis <= 3) {
-            player.hp -= 1;
+            player.hp -= enemies[i].damage;
         }
 
         for (let m = 0; m < swirls.length; m++) {
@@ -201,7 +185,7 @@ function tick() {
                 Math.abs(swirls[m].x - (enemies[i].x - 25)) < 25 &&
                 Math.abs(swirls[m].y - (enemies[i].y - 25)) < 25
             ) {
-                enemies[i].hp -= swirls[m].dmg;
+                enemies[i].hp -= player.damage;
                 swirls.splice(m, 1);
             }
         }
@@ -234,6 +218,8 @@ var player = {
     maxHp: 100,
     killCount: 0,
     money: Number(localStorage.getItem("balance")),
+    speed: Number(localStorage.getItem("speed")) + 3,
+    damage: localStorage.getItem("damage"),
 };
 
 let gameOver = false;
@@ -324,7 +310,6 @@ function castSwirl() {
         y: player.y - 12.5,
         dx: (xDiff < 0 ? 1 : -1) * Math.cos(angle) * 10,
         dy: (xDiff < 0 ? 1 : -1) * Math.sin(angle) * 10,
-        dmg: 10,
     };
     swirls.push(swirl);
 }
@@ -333,8 +318,10 @@ function spawnEnemy() {
     var enemy = {
         x: rand(0, 1950),
         y: rand(0, 1950),
-        hp: 100,
-        maxHp: 100,
+        hp: Number(localStorage.getItem("enemyHp")) + 100,
+        maxHp: Number(localStorage.getItem("enemyHp")) + 100,
+        damage: Number(localStorage.getItem("enemyDamage")) + 1,
+        speed: Number(localStorage.getItem("enemySpeed")) + 4,
     };
     if (!gameOver) {
         enemies.push(enemy);
@@ -347,12 +334,74 @@ window.toggleNav = () => {
 };
 
 document.querySelector(".shopBtn").addEventListener("click", function () {
-    var shop = document.querySelector(".shop");
+    const shop = document.querySelector(".shop");
     shop.style.display = shop.style.display === "none" ? "block" : "none";
 });
 
-var modal = document.getElementsByClassName("shop")[0];
-var span = document.getElementsByClassName("close")[0];
+const modal = document.getElementsByClassName("shop")[0];
+const span = document.getElementsByClassName("close")[0];
 span.onclick = function () {
     modal.style.display = "none";
 };
+
+const damageUpgrade = document.getElementById("upgradeDamage");
+damageUpgrade.onclick = function () {
+    if (player.money <= 5 || player.damage >= 20) {
+        return;
+    }
+    player.money -= 5;
+    localStorage.setItem("balance", player.money);
+    localStorage.setItem(
+        "damage",
+        parseInt(localStorage.getItem("damage")) + 2
+    );
+    console.log(player.money);
+};
+
+const speedUpgrade = document.getElementById("upgradeSpeed");
+speedUpgrade.onclick = function () {
+    if (player.money <= 5 || player.speed >= 7) {
+        return;
+    }
+    player.speed += 0.5;
+    player.money -= 5;
+    localStorage.setItem("balance", player.money);
+    localStorage.setItem("speed", player.speed);
+    console.log(player.damage);
+};
+
+const enemyUpgrade = document.getElementById("upgradeEnemy");
+enemyUpgrade.onclick = function () {
+    // if (player.money <= 5) {
+    //     return;
+    // }
+    player.money -= 10;
+    localStorage.setItem("balance", player.money);
+    localStorage.setItem(
+        "enemyDamage",
+        localStorage.getItem("enemyDamage") + 1
+    );
+    localStorage.setItem("enemySpeed", localStorage.getItem("enemySpeed") + 1);
+    localStorage.setItem("enemyHp", localStorage.getItem("enemyHp") + 5);
+    localStorage.setItem("coinValue", localStorage.getItem("coinValue") + 2);
+};
+
+document.getElementById("start-button").addEventListener("click", init);
+function init() {
+    setInterval(tick, 10);
+
+    requestAnimationFrame(draw);
+
+    window.setInterval(spawnEnemy, 2500);
+
+    document.body.appendChild(canvas);
+
+    document.getElementById("start-screen").style.display = "none";
+    document.getElementById("menu-btn").style.display = "none";
+    document.getElementById("main").style.display = "none";
+    document.getElementById("nav-bar").style.display = "none";
+}
+
+document.getElementById("coins").innerHTML = Number(
+    localStorage.getItem("balance")
+);
