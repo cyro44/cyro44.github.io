@@ -44,7 +44,7 @@ main {
     background: transparent;
     outline: none;
     border: 2px solid #ffffff60;
-    border-radius: 4px;
+    border-radius: 8px;
     -webkit-box-shadow: 0px 10px 13px -7px #000000,
         5px 5px 15px 5px rgba(0, 0, 0, 0);
     box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0, 0, 0, 0);
@@ -184,6 +184,7 @@ body[data-nav="true"] > nav > #nav-links {
     display: inline-block;
     margin: 4px;
     vertical-align: top;
+    animation: fadeInBottom 0.4s ease-in-out;
 }
 
 .close {
@@ -207,4 +208,14 @@ body[data-nav="true"] > nav > #nav-links {
 
 .shopItem p {
     line-height: normal;
+}
+
+@keyframes fadeInBottom {
+    from {
+        opacity: 0;
+        transform: translateY(2%);
+    }
+    to {
+        opacity: 1;
+    }
 }
