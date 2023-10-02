@@ -28,6 +28,11 @@ main {
     transform: translate(-50%, -50%);
 }
 
+.shooterShadow {
+    opacity: 0.3;
+    transform: translate(2px, 35px);
+}
+
 .start-screen {
     position: fixed;
     top: 50%;
