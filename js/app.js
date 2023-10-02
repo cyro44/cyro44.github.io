@@ -13,11 +13,20 @@
     var player = {
         x: rand(0, 1950),
         y: rand(0, 1950),
-        hp: localStorage.getItem("health") === null ? 100 : Number(localStorage.getItem("health")),
-        maxHp: localStorage.getItem("health") === null ? 100 : Number(localStorage.getItem("health")),
+        hp:
+            localStorage.getItem("health") === null
+                ? 100
+                : Number(localStorage.getItem("health")),
+        maxHp:
+            localStorage.getItem("health") === null
+                ? 100
+                : Number(localStorage.getItem("health")),
         killCount: 0,
         money: Number(localStorage.getItem("balance")),
-        speed: localStorage.getItem("speed") === null ? 3 : Number(localStorage.getItem("speed")),
+        speed:
+            localStorage.getItem("speed") === null
+                ? 3
+                : Number(localStorage.getItem("speed")),
         damage: localStorage.getItem("damage"),
     };
 
