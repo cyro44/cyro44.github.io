@@ -28,6 +28,7 @@
                 ? 3
                 : Number(localStorage.getItem("speed")),
         damage: localStorage.getItem("damage"),
+        magnetRadius: Number(localStorage.getItem("magnet")),
     };
 
     let gameOver = false;
@@ -148,10 +149,12 @@
         let speedLvl = Number(localStorage.getItem("speedLvl")) || 0;
         let enemyLvl = Number(localStorage.getItem("enemyLvl")) || 0;
         let healthLvl = Number(localStorage.getItem("healthLvl")) || 0;
+        let magnetLvl = Number(localStorage.getItem("magnetLvl")) || 0;
         document.getElementById("dmgLvl").innerHTML = "Level: " + damageLvl;
         document.getElementById("speedLvl").innerHTML = "Level: " + speedLvl;
         document.getElementById("enemyLvl").innerHTML = "Level: " + enemyLvl;
         document.getElementById("healthLvl").innerHTML = "Level: " + healthLvl;
+        document.getElementById("magnetLvl").innerHTML = "Level: " + magnetLvl;
     });
 
     const modal = document.getElementsByClassName("shop")[0];
@@ -208,6 +211,22 @@
         player.money -= 5;
         localStorage.setItem("balance", player.money);
         localStorage.setItem("health", player.hp);
+    };
+
+    const magnetUpgrade = document.getElementById("upgradeMagnet");
+    magnetUpgrade.onclick = function () {
+        if (player.money < 5 || player.magnetRadius >= 300) {
+            magnetUpgrade.innerHTML = "Too Poor or Max Level";
+            return;
+        }
+        let magnetLvl = Number(localStorage.getItem("magnetLvl")) || 0;
+        magnetLvl++;
+        localStorage.setItem("magnetLvl", magnetLvl);
+        document.getElementById("magnetLvl").innerHTML = "Level: " + magnetLvl;
+        player.magnetRadius += 5;
+        player.money -= 5;
+        localStorage.setItem("balance", player.money);
+        localStorage.setItem("magnet", player.magnetRadius);
     };
 
     const enemyUpgrade = document.getElementById("upgradeEnemy");
@@ -416,17 +435,32 @@
                 }
             }
         }
+
         for (let i = 0; i < coins.length; i++) {
             if (
-                Math.abs((player.x - 12.5) - coins[i].x) < 25 &&
-                Math.abs((player.y - 12.5) - coins[i].y) < 25
+                Math.abs(player.x - 12.5 - coins[i].x) < 25 &&
+                Math.abs(player.y - 12.5 - coins[i].y) < 25
             ) {
                 player.money++;
                 localStorage.setItem("balance", player.money);
                 coins.splice(i, 1);
                 i--;
+            } else {
+                const xDiff = player.x - coins[i].x;
+                const yDiff = player.y - coins[i].y;
+
+                const coinAngle = Math.atan2(yDiff, xDiff);
+
+                const dx = Math.cos(coinAngle) * 5;
+                const dy = Math.sin(coinAngle) * 5;
+
+                if (Math.abs(xDiff) < player.magnetRadius) {
+                    coins[i].x += dx;
+                    coins[i].y += dy;
+                }
             }
         }
+
         if (player.hp <= 0) {
             gameOver = true;
             ctx.font = "30px";
