@@ -418,8 +418,8 @@
         }
         for (let i = 0; i < coins.length; i++) {
             if (
-                Math.abs(player.x - coins[i].x) < 25 &&
-                Math.abs(player.y - coins[i].y) < 25
+                Math.abs((player.x - 12.5) - coins[i].x) < 25 &&
+                Math.abs((player.y - 12.5) - coins[i].y) < 25
             ) {
                 player.money++;
                 localStorage.setItem("balance", player.money);
