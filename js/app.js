@@ -223,7 +223,7 @@
         magnetLvl++;
         localStorage.setItem("magnetLvl", magnetLvl);
         document.getElementById("magnetLvl").innerHTML = "Level: " + magnetLvl;
-        player.magnetRadius += 5;
+        player.magnetRadius += 10;
         player.money -= 5;
         localStorage.setItem("balance", player.money);
         localStorage.setItem("magnet", player.magnetRadius);
