@@ -3,8 +3,11 @@
     const ctx = canvas.getContext("2d");
     canvas.width = document.body.clientWidth;
     canvas.height = document.body.clientHeight;
-    const swirlImg = document.getElementById("swirl");
-    const coinImg = document.getElementById("coin");
+
+    const swirlImg = document.createElement("img");
+    swirlImg.src = "media/swirl.png";
+    const coinImg = document.createElement("img");
+    coinImg.src = "media/coin.webp";
 
     if (localStorage.getItem("damage") == null) {
         localStorage.setItem("damage", 10);
