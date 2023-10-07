@@ -40,6 +40,8 @@
 
     var enemies = [];
 
+    var towerEnemies = [];
+
     let coins = [];
 
     let keys = {
@@ -138,6 +140,17 @@
         if (!gameOver) {
             enemies.push(enemy);
         }
+
+        var towerEnemy = {
+            x: rand(0, 1950),
+            y: rand(0, 1950),
+            hp: Number(localStorage.getItem("towerEnemyHp")) + 200,
+            maxHp: Number(localStorage.getItem("towerEnemyHp")) + 100,
+            damage: Number(localStorage.getItem("towerEnemyDamage")) + 1,
+        }
+        if (!gameOver && towerUnlocked) {
+            towerEnemies.push(towerEnemy);
+        }
     }
 
     window.toggleNav = () => {
@@ -153,11 +166,13 @@
         let enemyLvl = Number(localStorage.getItem("enemyLvl")) || 0;
         let healthLvl = Number(localStorage.getItem("healthLvl")) || 0;
         let magnetLvl = Number(localStorage.getItem("magnetLvl")) || 0;
+        let enemyTypeLvl = Number(localStorage.getItem("enemyTypeLvl")) || 0;
         document.getElementById("dmgLvl").innerHTML = "Level: " + damageLvl;
         document.getElementById("speedLvl").innerHTML = "Level: " + speedLvl;
         document.getElementById("enemyLvl").innerHTML = "Level: " + enemyLvl;
         document.getElementById("healthLvl").innerHTML = "Level: " + healthLvl;
         document.getElementById("magnetLvl").innerHTML = "Level: " + magnetLvl;
+        document.getElementById("enemyTypeLvl").innerHTML = "Level: " + enemyTypeLvl;
     });
 
     const modal = document.getElementsByClassName("shop")[0];
@@ -257,6 +272,21 @@
             "coinValue",
             localStorage.getItem("coinValue") + 2
         );
+    };
+
+    const enemyTypeUpgrade = document.getElementById("upgradeEnemyType");
+    enemyTypeUpgrade.onclick = function () {
+        if (player.money < 500 || enemyTypeLvl >= 8) {
+            enemyTypeUpgrade.innerHTML = "Too Poor or Max Type";
+            return;
+        }
+        player.money -= 500;
+        let enemyTypeLvl = Number(localStorage.getItem("enemyTypeLvl")) || 0;
+        enemyTypeLvl++;
+        let towerUnlocked = false;
+        localStorage.setItem("enemyTypeLvl", enemyTypeLvl);
+        document.getElementById("enemyTypeLvl").innerHTML = "Level: " + enemyTypeLvl;
+        towerUnlocked == true;
     };
 
     function draw() {
