@@ -152,7 +152,7 @@
             damage: Number(localStorage.getItem("towerEnemyDamage")) + 1,
         };
 
-        if (!gameOver && localStorage.getItem("towerUpgrade")) {
+        if (!gameOver && towerUnlocked) {
             towerEnemies.push(towerEnemy);
         }
     }
@@ -268,6 +268,14 @@
             "coinValue",
             localStorage.getItem("coinValue") + 2
         );
+        localStorage.setItem(
+            "towerEnemyHp",
+            localStorage.getItem("towerEnemyHp") + 200
+        );
+        localStorage.setItem(
+            "towerEnemyDamage",
+            localStorage.getItem("towerEnemyDamage") + 1
+        );
     };
 
     const enemyTypeUpgrade = document.getElementById("upgradeEnemyType");
@@ -377,6 +385,9 @@
                     player.killCount++;
                     i--;
                 }
+                coins.forEach((coin) => {
+                    ctx.drawImage(coinImg, coin.x, coin.y, 25, 25);
+                });
             }
         });
         if (gameOver) {
@@ -493,6 +504,19 @@
                     Math.abs(swirls[m].y - (enemies[i].y - 25)) < 25
                 ) {
                     enemies[i].hp -= player.damage;
+                    swirls.splice(m, 1);
+                }
+            }
+        }
+
+        for (let i = 0; i < towerEnemies.length; i++) {
+            for (let m = 0; m < swirls.length; m++) {
+                if (
+                    towerEnemies[i] &&
+                    Math.abs(swirls[m].x - (towerEnemies[i].x - 25)) < 25 &&
+                    Math.abs(swirls[m].y - (towerEnemies[i].y - 25)) < 25
+                ) {
+                    towerEnemies[i].hp -= player.damage;
                     swirls.splice(m, 1);
                 }
             }
