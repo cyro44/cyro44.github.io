@@ -140,15 +140,17 @@
         if (!gameOver) {
             enemies.push(enemy);
         }
+    }
 
+    function spawnTowerEnemy() {
         var towerEnemy = {
             x: rand(0, 1950),
             y: rand(0, 1950),
             hp: Number(localStorage.getItem("towerEnemyHp")) + 200,
-            maxHp: Number(localStorage.getItem("towerEnemyHp")) + 100,
+            maxHp: Number(localStorage.getItem("towerEnemyHp")) + 200,
             damage: Number(localStorage.getItem("towerEnemyDamage")) + 1,
-        }
-        if (!gameOver && towerUnlocked) {
+        };
+        if (!gameOver && towerEnemy) {
             towerEnemies.push(towerEnemy);
         }
     }
@@ -172,7 +174,8 @@
         document.getElementById("enemyLvl").innerHTML = "Level: " + enemyLvl;
         document.getElementById("healthLvl").innerHTML = "Level: " + healthLvl;
         document.getElementById("magnetLvl").innerHTML = "Level: " + magnetLvl;
-        document.getElementById("enemyTypeLvl").innerHTML = "Level: " + enemyTypeLvl;
+        document.getElementById("enemyTypeLvl").innerHTML =
+            "Level: " + enemyTypeLvl;
     });
 
     const modal = document.getElementsByClassName("shop")[0];
@@ -285,7 +288,8 @@
         enemyTypeLvl++;
         let towerUnlocked = false;
         localStorage.setItem("enemyTypeLvl", enemyTypeLvl);
-        document.getElementById("enemyTypeLvl").innerHTML = "Level: " + enemyTypeLvl;
+        document.getElementById("enemyTypeLvl").innerHTML =
+            "Level: " + enemyTypeLvl;
         towerUnlocked == true;
     };
 
@@ -348,6 +352,39 @@
                 coins.forEach((coin) => {
                     ctx.drawImage(coinImg, coin.x, coin.y, 25, 25);
                 });
+            }
+        });
+        towerEnemies.forEach((towerEnemy) => {
+            ctx.beginPath();
+            ctx.arc(towerEnemy.x, towerEnemy.y, 25, 0, 2 * Math.PI);
+            ctx.fillStyle = "#850606";
+            ctx.fill();
+            for (let i = 0; i < towerEnemies.length; i++) {
+                ctx.fillStyle = "grey";
+                ctx.fillRect(
+                    towerEnemies[i].x - 50,
+                    towerEnemies[i].y + 40,
+                    100,
+                    10
+                );
+                ctx.fillStyle = "#850606";
+                ctx.fillRect(
+                    towerEnemies[i].x - 50,
+                    towerEnemies[i].y + 40,
+                    100 * (towerEnemies[i].hp / towerEnemies[i].maxHp),
+                    10
+                );
+                var coin = {
+                    x: towerEnemies[i].x - 12.5,
+                    y: towerEnemies[i].y - 12.5,
+                    value: Number(localStorage.getItem("coinValue")) + 1,
+                };
+                if (towerEnemies[i].hp <= 0) {
+                    coins.push(coin);
+                    towerEnemies.splice(i, 1);
+                    player.killCount++;
+                    i--;
+                }
             }
         });
         if (gameOver) {
@@ -510,7 +547,8 @@
 
         requestAnimationFrame(draw);
 
-        window.setInterval(spawnEnemy, 2500);
+        setInterval(spawnEnemy, 2500);
+        setInterval(spawnTowerEnemy, 10000);
 
         document.body.appendChild(canvas);
 
