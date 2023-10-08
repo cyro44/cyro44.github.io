@@ -137,6 +137,7 @@
             damage: Number(localStorage.getItem("enemyDamage")) + 1,
             speed: Number(localStorage.getItem("enemySpeed")) + 4,
         };
+
         if (!gameOver) {
             enemies.push(enemy);
         }
@@ -150,7 +151,8 @@
             maxHp: Number(localStorage.getItem("towerEnemyHp")) + 200,
             damage: Number(localStorage.getItem("towerEnemyDamage")) + 1,
         };
-        if (!gameOver && towerEnemy) {
+
+        if (!gameOver && localStorage.getItem("towerUpgrade")) {
             towerEnemies.push(towerEnemy);
         }
     }
@@ -287,10 +289,12 @@
         let enemyTypeLvl = Number(localStorage.getItem("enemyTypeLvl")) || 0;
         enemyTypeLvl++;
         let towerUnlocked = false;
+        localStorage.setItem(towerUnlocked, false);
         localStorage.setItem("enemyTypeLvl", enemyTypeLvl);
         document.getElementById("enemyTypeLvl").innerHTML =
             "Level: " + enemyTypeLvl;
         towerUnlocked == true;
+        localStorage.setItem(towerUnlocked, true);
     };
 
     function draw() {
