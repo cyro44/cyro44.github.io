@@ -38,6 +38,8 @@
 
     var swirls = [];
 
+    var towerSwirls = [];
+
     var enemies = [];
 
     var towerEnemies = [];
@@ -128,6 +130,25 @@
         swirls.push(swirl);
     }
 
+    function castTowerSwirl(towerEnemy) {
+        if (towerEnemy.cooldown < 0) return;
+        towerEnemy.cooldown = 25;
+
+        const xDiff = player.x - towerEnemy.x;
+        const yDiff = player.y - towerEnemy.y;
+
+        const angle = Math.atan2(yDiff, xDiff);
+
+        var towerSwirl = {
+            x: towerEnemy.x,
+            y: towerEnemy.y,
+            dx: Math.cos(angle) * 10,
+            dy: Math.sin(angle) * 10,
+        };
+
+        towerSwirls.push(towerSwirl);
+    }
+
     function spawnEnemy() {
         var enemy = {
             x: rand(0, 1950),
@@ -149,10 +170,11 @@
             y: rand(0, 1950),
             hp: Number(localStorage.getItem("towerEnemyHp")) + 200,
             maxHp: Number(localStorage.getItem("towerEnemyHp")) + 200,
-            damage: Number(localStorage.getItem("towerEnemyDamage")) + 1,
+            damage: Number(localStorage.getItem("towerEnemyDamage")) + 10,
+            cooldown: 0,
         };
 
-        if (!gameOver && towerUnlocked) {
+        if (!gameOver) {
             towerEnemies.push(towerEnemy);
         }
     }
@@ -312,6 +334,17 @@
         for (let i = 0; i < swirls.length; i++) {
             ctx.drawImage(swirlImg, swirls[i].x, swirls[i].y, 25, 25);
         }
+        for (let i = 0; i < towerSwirls.length; i++) {
+            if (towerSwirls[i]) {
+                ctx.drawImage(
+                    swirlImg,
+                    towerSwirls[i].x,
+                    towerSwirls[i].y,
+                    25,
+                    25
+                );
+            }
+        }
         ctx.beginPath();
         ctx.arc(1000, 1000, 1, 0, 2 * Math.PI);
         ctx.fillStyle = "black";
@@ -461,6 +494,32 @@
             swirls[i].y += swirls[i].dy;
         }
 
+        for (let i = 0; i < towerSwirls.length; i++) {
+            towerSwirls[i].x += towerSwirls[i].dx;
+            towerSwirls[i].y += towerSwirls[i].dy;
+
+            if (towerSwirls[i].y < 0 || towerSwirls[i].y > 1975) {
+                towerSwirls.splice(i, 1);
+                i--;
+                continue;
+            }
+
+            if (towerSwirls[i].x < 0 || towerSwirls[i].x > 1975) {
+                towerSwirls.splice(i, 1);
+                i--;
+                continue;
+            }
+            for (let j = 0; j < towerEnemies.length; j++) {
+                if (
+                    Math.abs(towerSwirls[i].x - player.x) < 25 &&
+                    Math.abs(towerSwirls[i].y - player.y) < 25
+                ) {
+                    towerSwirls.splice(i, 1);
+                    player.hp -= towerEnemies[j].damage;
+                }
+            }
+        }
+
         for (let i = 0; i < swirls.length; i++) {
             if (swirls[i].y < 0 || swirls[i].y > 1975) {
                 swirls.splice(i, 1);
@@ -519,6 +578,11 @@
                     towerEnemies[i].hp -= player.damage;
                     swirls.splice(m, 1);
                 }
+            }
+            if (towerEnemies[i].cooldown > 0) {
+                towerEnemies[i].cooldown--;
+            } else {
+                castTowerSwirl(towerEnemies[i]);
             }
         }
 
