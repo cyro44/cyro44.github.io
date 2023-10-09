@@ -214,7 +214,9 @@
             damageUpgrade.innerHTML = "Too Poor or Max Level";
             return;
         }
+        let damageLvl = Number(localStorage.getItem("dmgLvl")) || 0;
         damageLvl++;
+        document.getElementById("dmgLvl").innerHTML = "Level: " + damageLvl;
         localStorage.setItem("dmgLvl", damageLvl);
         player.money -= 5;
         localStorage.setItem("balance", player.money);
@@ -232,6 +234,7 @@
         }
         let speedLvl = Number(localStorage.getItem("speedLvl")) || 0;
         speedLvl++;
+        document.getElementById("speedLvl").innerHTML = "Level: " + speedLvl;
         localStorage.setItem("speedLvl", speedLvl);
         player.speed += 0.5;
         player.money -= 5;
@@ -245,7 +248,9 @@
             healthUpgrade.innerHTML = "Too Poor or Max Level";
             return;
         }
+        let healthLvl = Number(localStorage.getItem("healthLvl")) || 0;
         healthLvl++;
+        document.getElementById("healthLvl").innerHTML = "Level: " + healthLvl;
         localStorage.setItem("healthLvl", healthLvl);
         player.hp += 5;
         player.money -= 5;
@@ -259,6 +264,7 @@
             magnetUpgrade.innerHTML = "Too Poor or Max Level";
             return;
         }
+        let magnetLvl = Number(localStorage.getItem("magnetLvl")) || 0;
         magnetLvl++;
         localStorage.setItem("magnetLvl", magnetLvl);
         player.magnetRadius += 10;
@@ -269,12 +275,14 @@
 
     const enemyUpgrade = document.getElementById("upgradeEnemy");
     enemyUpgrade.onclick = function () {
+        let enemyLvl = Number(localStorage.getItem("enemyLvl")) || 0;
         if (player.money < 10 || enemyLvl >= 8) {
             enemyUpgrade.innerHTML = "Too Poor or Max Level";
             return;
         }
         player.money -= 10;
         enemyLvl++;
+        document.getElementById("enemyLvl").innerHTML = "Level: " + enemyLvl;
         localStorage.setItem("enemyLvl", enemyLvl);
         localStorage.setItem("balance", player.money);
         localStorage.setItem(
@@ -292,7 +300,7 @@
         );
         localStorage.setItem(
             "towerEnemyHp",
-            localStorage.getItem("towerEnemyHp") + 200
+            localStorage.getItem("towerEnemyHp") + 5
         );
         localStorage.setItem(
             "towerEnemyDamage",
@@ -307,7 +315,10 @@
             return;
         }
         player.money -= 500;
+        let enemyTypeLvl = Number(localStorage.getItem("enemyTypeLvl")) || 0;
         enemyTypeLvl++;
+        document.getElementById("enemyTypeLvl").innerHTML =
+            "Level: " + enemyTypeLvl;
         let towerUnlocked = false;
         localStorage.setItem(towerUnlocked, false);
         localStorage.setItem("enemyTypeLvl", enemyTypeLvl);
