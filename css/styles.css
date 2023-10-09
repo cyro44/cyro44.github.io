@@ -194,6 +194,11 @@ body[data-nav="true"] > nav > #nav-links {
     margin: 8px;
     vertical-align: top;
     animation: fadeInBottom 0.4s ease-in-out;
+    transition: transform 0.2s ease-in-out;
+}
+
+.shopItem:hover {
+    transform: translateY(-5px);
 }
 
 .close {
