@@ -32,6 +32,7 @@
                 : Number(localStorage.getItem("speed")),
         damage: localStorage.getItem("damage"),
         magnetRadius: Number(localStorage.getItem("magnet")),
+        trackingRadius: Number(localStorage.getItem("tracking")),
     };
 
     let gameOver = false;
@@ -189,15 +190,18 @@
         shop.style.display = shop.style.display === "none" ? "block" : "none";
         let damageLvl = Number(localStorage.getItem("dmgLvl")) || 0;
         let speedLvl = Number(localStorage.getItem("speedLvl")) || 0;
-        let enemyLvl = Number(localStorage.getItem("enemyLvl")) || 0;
         let healthLvl = Number(localStorage.getItem("healthLvl")) || 0;
         let magnetLvl = Number(localStorage.getItem("magnetLvl")) || 0;
+        let trackingLvl = Number(localStorage.getItem("trackingLvl")) || 0;
+        let enemyLvl = Number(localStorage.getItem("enemyLvl")) || 0;
         let enemyTypeLvl = Number(localStorage.getItem("enemyTypeLvl")) || 0;
         document.getElementById("dmgLvl").innerHTML = "Level: " + damageLvl;
         document.getElementById("speedLvl").innerHTML = "Level: " + speedLvl;
-        document.getElementById("enemyLvl").innerHTML = "Level: " + enemyLvl;
         document.getElementById("healthLvl").innerHTML = "Level: " + healthLvl;
         document.getElementById("magnetLvl").innerHTML = "Level: " + magnetLvl;
+        document.getElementById("trackingLvl").innerHTML =
+            "Level: " + trackingLvl;
+        document.getElementById("enemyLvl").innerHTML = "Level: " + enemyLvl;
         document.getElementById("enemyTypeLvl").innerHTML =
             "Level: " + enemyTypeLvl;
     });
@@ -266,11 +270,29 @@
         }
         let magnetLvl = Number(localStorage.getItem("magnetLvl")) || 0;
         magnetLvl++;
+        document.getElementById("magnetLvl").innerHTML = "Level: " + magnetLvl;
         localStorage.setItem("magnetLvl", magnetLvl);
         player.magnetRadius += 10;
         player.money -= 5;
         localStorage.setItem("balance", player.money);
         localStorage.setItem("magnet", player.magnetRadius);
+    };
+
+    const trackingUpgrade = document.getElementById("upgradeTracking");
+    trackingUpgrade.onclick = function () {
+        if (player.money < 10 || player.trackingRadius >= 150) {
+            trackingUpgrade.innerHTML = "Too Poor or Max Level";
+            return;
+        }
+        let trackingLvl = Number(localStorage.getItem("trackingLvl")) || 0;
+        trackingLvl++;
+        document.getElementById("trackingLvl").innerHTML =
+            "Level: " + trackingLvl;
+        localStorage.setItem("trackingLvl", trackingLvl);
+        player.trackingRadius += 10;
+        player.money -= 10;
+        localStorage.setItem("balance", player.money);
+        localStorage.setItem("tracking", player.trackingRadius);
     };
 
     const enemyUpgrade = document.getElementById("upgradeEnemy");
@@ -618,6 +640,40 @@
                 if (Math.abs(xDiff) < player.magnetRadius) {
                     coins[i].x += dx;
                     coins[i].y += dy;
+                }
+            }
+        }
+
+        for (let i = 0; i < swirls.length; i++) {
+            for (let m = 0; m < enemies.length; m++) {
+                const xDiff = swirls[i].x + 12.5 - enemies[m].x;
+                const yDiff = swirls[i].y + 12.5 - enemies[m].y;
+        
+                const swirlAngle = Math.atan2(yDiff, xDiff);
+        
+                const dx = -Math.cos(swirlAngle) * 20;
+                const dy = -Math.sin(swirlAngle) * 20;
+        
+                if (player.trackingRadius > Math.abs(xDiff)) {
+                    swirls[i].x += dx;
+                    swirls[i].y += dy;
+                }
+            }
+        }
+
+        for (let i = 0; i < swirls.length; i++) {
+            for (let m = 0; m < towerEnemies.length; m++) {
+                const xDiff = swirls[i].x + 12.5 - towerEnemies[m].x;
+                const yDiff = swirls[i].y + 12.5 - towerEnemies[m].y;
+        
+                const swirlAngle = Math.atan2(yDiff, xDiff);
+        
+                const dx = -Math.cos(swirlAngle) * 20;
+                const dy = -Math.sin(swirlAngle) * 20;
+        
+                if (player.trackingRadius > Math.abs(xDiff)) {
+                    swirls[i].x += dx;
+                    swirls[i].y += dy;
                 }
             }
         }
