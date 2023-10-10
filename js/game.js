@@ -175,7 +175,7 @@
             cooldown: 0,
         };
 
-        if (!gameOver) {
+        if (!gameOver && towerUnlocked) {
             towerEnemies.push(towerEnemy);
         }
     }
