@@ -520,6 +520,40 @@
 
         if (mouse.down && swirls.length < 69420) {
             castSwirl();
+            if (player.trackingRadius < 0 || swirls.length < 0) return
+            for (let i = 0; i < swirls.length; i++) {
+                for (let m = 0; m < enemies.length; m++) {
+                    const xDiff = swirls[i].x + 12.5 - enemies[m].x;
+                    const yDiff = swirls[i].y + 12.5 - enemies[m].y;
+
+                    const swirlAngle = Math.atan2(yDiff, xDiff);
+
+                    const dx = -Math.cos(swirlAngle) * 20;
+                    const dy = -Math.sin(swirlAngle) * 20;
+
+                    if (player.trackingRadius > Math.abs(xDiff)) {
+                        swirls[i].x += dx;
+                        swirls[i].y += dy;
+                    }
+                }
+            }
+
+            for (let i = 0; i < swirls.length; i++) {
+                for (let m = 0; m < towerEnemies.length; m++) {
+                    const xDiff = swirls[i].x + 12.5 - towerEnemies[m].x;
+                    const yDiff = swirls[i].y + 12.5 - towerEnemies[m].y;
+
+                    const swirlAngle = Math.atan2(yDiff, xDiff);
+
+                    const dx = -Math.cos(swirlAngle) * 20;
+                    const dy = -Math.sin(swirlAngle) * 20;
+
+                    if (player.trackingRadius > Math.abs(xDiff)) {
+                        swirls[i].x += dx;
+                        swirls[i].y += dy;
+                    }
+                }
+            }
         }
 
         for (let i = 0; i < swirls.length; i++) {
@@ -528,6 +562,8 @@
         }
 
         for (let i = 0; i < towerSwirls.length; i++) {
+            if (towerEnemies.length < 0) return;
+
             towerSwirls[i].x += towerSwirls[i].dx;
             towerSwirls[i].y += towerSwirls[i].dy;
 
@@ -640,40 +676,6 @@
                 if (Math.abs(xDiff) < player.magnetRadius) {
                     coins[i].x += dx;
                     coins[i].y += dy;
-                }
-            }
-        }
-
-        for (let i = 0; i < swirls.length; i++) {
-            for (let m = 0; m < enemies.length; m++) {
-                const xDiff = swirls[i].x + 12.5 - enemies[m].x;
-                const yDiff = swirls[i].y + 12.5 - enemies[m].y;
-        
-                const swirlAngle = Math.atan2(yDiff, xDiff);
-        
-                const dx = -Math.cos(swirlAngle) * 20;
-                const dy = -Math.sin(swirlAngle) * 20;
-        
-                if (player.trackingRadius > Math.abs(xDiff)) {
-                    swirls[i].x += dx;
-                    swirls[i].y += dy;
-                }
-            }
-        }
-
-        for (let i = 0; i < swirls.length; i++) {
-            for (let m = 0; m < towerEnemies.length; m++) {
-                const xDiff = swirls[i].x + 12.5 - towerEnemies[m].x;
-                const yDiff = swirls[i].y + 12.5 - towerEnemies[m].y;
-        
-                const swirlAngle = Math.atan2(yDiff, xDiff);
-        
-                const dx = -Math.cos(swirlAngle) * 20;
-                const dy = -Math.sin(swirlAngle) * 20;
-        
-                if (player.trackingRadius > Math.abs(xDiff)) {
-                    swirls[i].x += dx;
-                    swirls[i].y += dy;
                 }
             }
         }
