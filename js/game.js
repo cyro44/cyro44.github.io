@@ -101,11 +101,11 @@
         mouse.y = e.clientY;
     });
 
-    window.addEventListener("mousedown", (e) => {
+    window.addEventListener("mousedown", () => {
         mouse.down = true;
     });
 
-    window.addEventListener("mouseup", (e) => {
+    window.addEventListener("mouseup", () => {
         mouse.down = false;
     });
 
@@ -330,6 +330,9 @@
         );
     };
 
+    let towerUnlocked = false;
+    localStorage.setItem(towerUnlocked, false);
+
     const enemyTypeUpgrade = document.getElementById("upgradeEnemyType");
     enemyTypeUpgrade.onclick = function () {
         if (player.money < 500 || enemyTypeLvl >= 8) {
@@ -341,8 +344,6 @@
         enemyTypeLvl++;
         document.getElementById("enemyTypeLvl").innerHTML =
             "Level: " + enemyTypeLvl;
-        let towerUnlocked = false;
-        localStorage.setItem(towerUnlocked, false);
         localStorage.setItem("enemyTypeLvl", enemyTypeLvl);
         towerUnlocked == true;
         localStorage.setItem(towerUnlocked, true);
