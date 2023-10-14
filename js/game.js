@@ -24,6 +24,7 @@
             localStorage.getItem("health") === null
                 ? 100
                 : Number(localStorage.getItem("health")),
+        regen: Number(localStorage.getItem("regen")),
         killCount: 0,
         money: Number(localStorage.getItem("balance")),
         speed:
@@ -180,6 +181,10 @@
         }
     }
 
+    function regenerate() {
+        player.hp += player.regen;
+    }
+
     window.toggleNav = () => {
         document.body.dataset.nav =
             document.body.dataset.nav === "true" ? "false" : "true";
@@ -191,6 +196,7 @@
         let damageLvl = Number(localStorage.getItem("dmgLvl")) || 0;
         let speedLvl = Number(localStorage.getItem("speedLvl")) || 0;
         let healthLvl = Number(localStorage.getItem("healthLvl")) || 0;
+        let regenLvl = Number(localStorage.getItem("regenLvl")) || 0;
         let magnetLvl = Number(localStorage.getItem("magnetLvl")) || 0;
         let trackingLvl = Number(localStorage.getItem("trackingLvl")) || 0;
         let enemyLvl = Number(localStorage.getItem("enemyLvl")) || 0;
@@ -198,6 +204,7 @@
         document.getElementById("dmgLvl").innerHTML = "Level: " + damageLvl;
         document.getElementById("speedLvl").innerHTML = "Level: " + speedLvl;
         document.getElementById("healthLvl").innerHTML = "Level: " + healthLvl;
+        document.getElementById("regenLvl").innerHTML = "Level: " + regenLvl;
         document.getElementById("magnetLvl").innerHTML = "Level: " + magnetLvl;
         document.getElementById("trackingLvl").innerHTML =
             "Level: " + trackingLvl;
@@ -260,6 +267,22 @@
         player.money -= 5;
         localStorage.setItem("balance", player.money);
         localStorage.setItem("health", player.hp);
+    };
+
+    const regenUpgrade = document.getElementById("upgradeRegen");
+    regenUpgrade.onclick = function () {
+        if (player.money < 10 || player.regen >= 10) {
+            regenUpgrade.innerHTML = "Too Poor or Max Level";
+            return;
+        }
+        let regenLvl = Number(localStorage.getItem("regenLvl")) || 0;
+        regenLvl++;
+        document.getElementById("regenLvl").innerHTML = "Level: " + regenLvl;
+        localStorage.setItem("regenLvl", regenLvl);
+        player.regen += 1;
+        player.money -= 10;
+        localStorage.setItem("balance", player.money);
+        localStorage.setItem("regen", player.regen);
     };
 
     const magnetUpgrade = document.getElementById("upgradeMagnet");
@@ -521,7 +544,7 @@
 
         if (mouse.down && swirls.length < 69420) {
             castSwirl();
-            if (player.trackingRadius < 0 || swirls.length < 0) return
+            if (player.trackingRadius < 0 || swirls.length < 0) return;
             for (let i = 0; i < swirls.length; i++) {
                 for (let m = 0; m < enemies.length; m++) {
                     const xDiff = swirls[i].x + 12.5 - enemies[m].x;
@@ -681,6 +704,10 @@
             }
         }
 
+        if (player.hp > player.maxHp) {
+            player.hp = player.maxHp;
+        }
+
         if (player.hp <= 0) {
             gameOver = true;
             ctx.font = "30px";
@@ -699,6 +726,10 @@
 
         setInterval(spawnEnemy, 2500);
         setInterval(spawnTowerEnemy, 10000);
+
+        if (player.regen > 0) {
+            setInterval(regenerate, 1000);
+        }
 
         document.body.appendChild(canvas);
 
