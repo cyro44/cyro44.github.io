@@ -14,7 +14,7 @@ app.get('/', function(req, res){
 
 const server = http.createServer(app);
 
-const port = 8080;
+const port = 4444;
 server.listen(port, () => {
-    console.log(`Server running at 8080`);
+    console.log(`Server running at 4444`);
 });
