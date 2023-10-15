@@ -193,6 +193,8 @@
     document.querySelector(".shopBtn").addEventListener("click", function () {
         const shop = document.querySelector(".shop");
         shop.style.display = shop.style.display === "none" ? "block" : "none";
+        document.getElementById("coins").innerHTML = player.money;
+        
         let damageLvl = Number(localStorage.getItem("dmgLvl")) || 0;
         let speedLvl = Number(localStorage.getItem("speedLvl")) || 0;
         let healthLvl = Number(localStorage.getItem("healthLvl")) || 0;
