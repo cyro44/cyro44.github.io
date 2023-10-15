@@ -5,9 +5,9 @@
     canvas.height = document.body.clientHeight;
 
     const swirlImg = document.createElement("img");
-    swirlImg.src = "media/swirl.png";
+    swirlImg.src = "/public/media/swirl.png";
     const coinImg = document.createElement("img");
-    coinImg.src = "media/coin.webp";
+    coinImg.src = "/public/media/coin.webp";
 
     if (localStorage.getItem("damage") == null) {
         localStorage.setItem("damage", 10);
