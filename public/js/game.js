@@ -194,7 +194,7 @@
         const shop = document.querySelector(".shop");
         shop.style.display = shop.style.display === "none" ? "block" : "none";
         document.getElementById("coins").innerHTML = player.money;
-        
+
         let damageLvl = Number(localStorage.getItem("dmgLvl")) || 0;
         let speedLvl = Number(localStorage.getItem("speedLvl")) || 0;
         let healthLvl = Number(localStorage.getItem("healthLvl")) || 0;
@@ -355,8 +355,10 @@
         );
     };
 
-    let enemyTypeStatus = localStorage.getItem("enemyTypeStatus");
-    let towerUnlocked = localStorage.getItem("towerUnlocked");
+    let enemyTypeStatus = localStorage.getItem("enemyTypeStatus") ?? "Locked";
+    let towerUnlocked = localStorage.getItem("towerUnlocked") ?? false;
+    document.getElementById("enemyTypeStatus").innerHTML =
+        "Status: " + enemyTypeStatus;
     localStorage.setItem("towerUnlocked", towerUnlocked);
     localStorage.setItem("enemyTypeStatus", enemyTypeStatus);
 
