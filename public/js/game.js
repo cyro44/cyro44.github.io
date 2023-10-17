@@ -202,7 +202,7 @@
         let magnetLvl = Number(localStorage.getItem("magnetLvl")) || 0;
         let trackingLvl = Number(localStorage.getItem("trackingLvl")) || 0;
         let enemyLvl = Number(localStorage.getItem("enemyLvl")) || 0;
-        let enemyTypeStatus = localStorage.getItem("enemyTypeStatus");
+        let towerUnlocked = localStorage.getItem("towerUnlocked") ?? false;
         document.getElementById("dmgLvl").innerHTML = "Level: " + damageLvl;
         document.getElementById("speedLvl").innerHTML = "Level: " + speedLvl;
         document.getElementById("healthLvl").innerHTML = "Level: " + healthLvl;
@@ -212,7 +212,7 @@
             "Level: " + trackingLvl;
         document.getElementById("enemyLvl").innerHTML = "Level: " + enemyLvl;
         document.getElementById("enemyTypeStatus").innerHTML =
-            "Status: " + enemyTypeStatus;
+            "Unlocked: " + towerUnlocked;
     });
 
     const modal = document.getElementsByClassName("shop")[0];
@@ -355,25 +355,23 @@
         );
     };
 
-    let enemyTypeStatus = localStorage.getItem("enemyTypeStatus") ?? "Locked";
-    let towerUnlocked = localStorage.getItem("towerUnlocked") ?? false;
+    let towerUnlocked = localStorage.getItem("towerUnlocked") || false;
     document.getElementById("enemyTypeStatus").innerHTML =
-        "Status: " + enemyTypeStatus;
+        "Unlocked: " + towerUnlocked;
     localStorage.setItem("towerUnlocked", towerUnlocked);
-    localStorage.setItem("enemyTypeStatus", enemyTypeStatus);
+
+    towerUnlocked = towerUnlocked == "true";
 
     const enemyTypeUpgrade = document.getElementById("upgradeEnemyType");
     enemyTypeUpgrade.onclick = function () {
-        if (player.money < 500 || enemyTypeStatus == "Unlocked") {
+        if (player.money < 500 || towerUnlocked == true) {
             enemyTypeUpgrade.innerHTML = "Too Poor or Max Type";
             return;
         }
         player.money -= 500;
-        enemyTypeStatus = "Unlocked";
-        localStorage.setItem("enemyTypeStatus", "Unlocked");
-        document.getElementById("enemyTypeStatus").innerHTML =
-            "Status: " + enemyTypeStatus;
         towerUnlocked = true;
+        document.getElementById("enemyTypeStatus").innerHTML =
+            "Unlocked: " + towerUnlocked;
         localStorage.setItem("towerUnlocked", true);
         localStorage.setItem("balance", player.money);
     };
