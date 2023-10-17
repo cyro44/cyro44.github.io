@@ -8,6 +8,8 @@
     swirlImg.src = "/public/media/swirl.png";
     const coinImg = document.createElement("img");
     coinImg.src = "/public/media/coin.webp";
+    const healthImg = document.createElement("img");
+    healthImg.src = "/public/media/healthpack.png";
 
     if (localStorage.getItem("damage") == null) {
         localStorage.setItem("damage", 10);
@@ -47,6 +49,8 @@
     var towerEnemies = [];
 
     let coins = [];
+
+    let healthPacks = [];
 
     let keys = {
         w: false,
@@ -149,6 +153,16 @@
         };
 
         towerSwirls.push(towerSwirl);
+    }
+
+    function spawnHealth() {
+        var healthPack = {
+            x: rand(0, 1950),
+            y: rand(0, 1950),
+            hp: Number(localStorage.getItem("healthPackHp")) + 10,
+        };
+
+        healthPacks.push(healthPack);
     }
 
     function spawnEnemy() {
@@ -484,6 +498,9 @@
                 });
             }
         });
+        healthPacks.forEach((healthPack) => {
+            ctx.drawImage(healthImg, healthPack.x, healthPack.y, 25, 25);
+        });
         if (gameOver) {
             ctx.resetTransform();
             ctx.font = "Bold 60px Courier New";
@@ -683,6 +700,17 @@
             }
         }
 
+        for (let i = 0; i < healthPacks.length; i++) {
+            if (
+                Math.abs(player.x - 12.5 - healthPacks[i].x) < 25 &&
+                Math.abs(player.y - 12.5 - healthPacks[i].y) < 25
+            ) {
+                player.hp += 10;
+                healthPacks.splice(i, 1);
+                i--;
+            }
+        }
+
         for (let i = 0; i < coins.length; i++) {
             if (
                 Math.abs(player.x - 12.5 - coins[i].x) < 25 &&
@@ -734,6 +762,8 @@
         if (player.regen > 0) {
             setInterval(regenerate, 1000);
         }
+
+        setInterval(spawnHealth, 1000);
 
         document.body.appendChild(canvas);
 
