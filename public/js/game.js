@@ -775,7 +775,7 @@
             setInterval(regenerate, 1000);
         }
 
-        setInterval(spawnHealth, 1000);
+        setInterval(spawnHealth, 10000);
 
         document.body.appendChild(canvas);
 
