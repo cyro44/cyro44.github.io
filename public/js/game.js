@@ -367,6 +367,18 @@
             "towerEnemyDamage",
             localStorage.getItem("towerEnemyDamage") + 1
         );
+        if (towerUnlocked) {
+            localStorage.setItem(
+                "towerEnemyHp",
+                localStorage.getItem("towerEnemyHp") + 5
+            );
+            localStorage.setItem(
+                "towerEnemyDamage",
+                localStorage.getItem("towerEnemyDamage") + 1
+            );
+        } else {
+            return;
+        }
     };
 
     let towerUnlocked = localStorage.getItem("towerUnlocked") || false;
