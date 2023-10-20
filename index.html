@@ -53,7 +53,10 @@
                     <div class="shopItem">
                         <h1>Regeneration</h1>
                         <h3 id="regenLvl">Level:</h3>
-                        <p>Upgrade natural health regeneration by 1 point per second per level.</p>
+                        <p>
+                            Upgrade natural health regeneration by 1 point per
+                            second per level.
+                        </p>
                         <button id="upgradeRegen">Upgrade (10 coins)</button>
                     </div>
 
@@ -85,10 +88,33 @@
                         <h1>Enemy Type</h1>
                         <h3 id="enemyTypeStatus">Level:</h3>
                         <p>
-                            Upgrade to a different enemy type. These enemies will
-                            have different stats and will drop more coins.
+                            Upgrade to a different enemy type. These enemies
+                            will have different stats and will drop more coins.
                         </p>
-                        <button id="upgradeEnemyType">Upgrade (500 coins)</button>
+                        <button id="upgradeEnemyType">
+                            Upgrade (500 coins)
+                        </button>
+                    </div>
+                </div>
+                <br />
+                <button class="statsBtn">Stats</button>
+                <div class="stats" style="display: none">
+                    <span class="close"
+                        ><i class="fa-solid fa-square-xmark"></i
+                    ></span>
+                    <h1 style="font-size: 50px">Stats</h1>
+                    <br />
+                    <div class="statsItem">
+                        <h2>Total Kills: </h2>
+                        <p id="totalKills"></p>
+                    </div>
+                    <div class="statsItem">
+                        <h2>Total Deaths: </h2>
+                        <p id="totalDeaths"></p>
+                    </div>
+                    <div class="statsItem">
+                        <h2>Total Coins: </h2>
+                        <p id="totalCoins"></p>
                     </div>
                 </div>
                 <p>Coins:</p>

@@ -244,3 +244,44 @@ body[data-nav="true"] > nav > #nav-links {
         opacity: 1;
     }
 }
+
+.stats {
+    display: none;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 1vmin;
+    aspect-ratio: 1.8 / 1;
+    width: 70vw;
+    background-color: #1e2124;
+    padding: 2rem 3rem;
+    color: white;
+    overflow: auto;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+        rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+        rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.statsItem {
+    width: 18rem;
+    height: 18rem;
+    background-color: #121212;
+    border-radius: 1vmin;
+    padding: 2rem 3rem;
+    display: inline-block;
+    margin: 8px;
+    vertical-align: top;
+    animation: fadeInBottom 0.4s ease-in-out;
+    transition: transform 0.2s ease-in-out;
+}
+
+.statsItem:hover {
+    transform: translateY(-5px);
+}
+
+.statsItem p {
+    line-height: normal;
+}

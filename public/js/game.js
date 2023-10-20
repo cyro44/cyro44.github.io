@@ -28,7 +28,10 @@
                 : Number(localStorage.getItem("health")),
         regen: Number(localStorage.getItem("regen")),
         killCount: 0,
+        totalKills: Number(localStorage.getItem("totalKills")),
+        totalDeaths: Number(localStorage.getItem("totalDeaths")),
         money: Number(localStorage.getItem("balance")),
+        totalCoins: Number(localStorage.getItem("totalCoins")),
         speed:
             localStorage.getItem("speed") === null
                 ? 3
@@ -402,6 +405,26 @@
         localStorage.setItem("balance", player.money);
     };
 
+    document.querySelector(".statsBtn").addEventListener("click", function () {
+        const stats = document.querySelector(".stats");
+        stats.style.display = stats.style.display === "none" ? "block" : "none";
+    });
+
+    const modal1 = document.getElementsByClassName("stats")[0];
+    const span1 = document.getElementsByClassName("close")[1];
+    span1.onclick = function () {
+        modal1.style.display = "none";
+    };
+
+    const totalKills = document.getElementById("totalKills");
+    totalKills.innerHTML = player.totalKills;
+
+    const totalDeaths = document.getElementById("totalDeaths");
+    totalDeaths.innerHTML = player.totalDeaths;
+
+    const totalCoins = document.getElementById("totalCoins");
+    totalCoins.innerHTML = player.totalCoins;
+
     function draw() {
         ctx.resetTransform();
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -467,6 +490,7 @@
                     coins.push(coin);
                     enemies.splice(i, 1);
                     player.killCount++;
+                    localStorage.setItem("totalKills", Number(localStorage.getItem("totalKills")) + 1);
                     i--;
                 }
                 coins.forEach((coin) => {
@@ -503,6 +527,7 @@
                     coins.push(coin);
                     towerEnemies.splice(i, 1);
                     player.killCount++;
+                    localStorage.setItem("totalKills", Number(localStorage.getItem("totalKills")) + 1);
                     i--;
                 }
                 coins.forEach((coin) => {
@@ -717,7 +742,7 @@
                 Math.abs(player.x - 12.5 - healthPacks[i].x) < 25 &&
                 Math.abs(player.y - 12.5 - healthPacks[i].y) < 25
             ) {
-                player.hp += 10;
+                player.hp += healthPacks[i].hp;
                 healthPacks.splice(i, 1);
                 i--;
             }
@@ -728,8 +753,9 @@
                 Math.abs(player.x - 12.5 - coins[i].x) < 25 &&
                 Math.abs(player.y - 12.5 - coins[i].y) < 25
             ) {
-                player.money++;
+                player.money += coins[i].value;
                 localStorage.setItem("balance", player.money);
+                localStorage.setItem("totalCoins", Number(localStorage.getItem("totalCoins")) + 1);
                 coins.splice(i, 1);
                 i--;
             } else {
@@ -758,6 +784,7 @@
             ctx.fillStyle = "black";
             ctx.textAlign = "center";
             ctx.fillText("You Died", canvas.width / 2, canvas.height / 2);
+            localStorage.setItem("totalDeaths", Number(localStorage.getItem("totalDeaths")) + 1);
             return;
         }
     }
