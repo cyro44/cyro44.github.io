@@ -84,9 +84,6 @@
             case "d":
                 keys.d = true;
                 break;
-            case "escape":
-                keys.esc = true;
-                break;
         }
     });
 
@@ -103,9 +100,6 @@
                 break;
             case "d":
                 keys.d = false;
-                break;
-            case "escape":
-                keys.esc = false;
                 break;
         }
     });
@@ -431,6 +425,18 @@
 
     const totalCoins = document.getElementById("totalCoins");
     totalCoins.innerHTML = player.totalCoins;
+
+    document.querySelector(".manuelBtn").addEventListener("click", function () {
+        const manuel = document.querySelector(".manuel");
+        manuel.style.display =
+            manuel.style.display === "none" ? "block" : "none";
+    });
+
+    const modal2 = document.getElementsByClassName("manuel")[0];
+    const span2 = document.getElementsByClassName("close")[2];
+    span2.onclick = function () {
+        modal2.style.display = "none";
+    };
 
     function draw() {
         ctx.resetTransform();
