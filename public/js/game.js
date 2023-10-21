@@ -84,6 +84,9 @@
             case "d":
                 keys.d = true;
                 break;
+            case "escape":
+                keys.esc = true;
+                break;
         }
     });
 
@@ -100,6 +103,9 @@
                 break;
             case "d":
                 keys.d = false;
+                break;
+            case "escape":
+                keys.esc = false;
                 break;
         }
     });
@@ -159,6 +165,7 @@
     }
 
     function spawnHealth() {
+        if (gameOver || isGamePaused) return;
         var healthPack = {
             x: rand(0, 1950),
             y: rand(0, 1950),
@@ -169,6 +176,7 @@
     }
 
     function spawnEnemy() {
+        if (gameOver || isGamePaused) return;
         var enemy = {
             x: rand(0, 1950),
             y: rand(0, 1950),
@@ -178,12 +186,11 @@
             speed: Number(localStorage.getItem("enemySpeed")) + 4,
         };
 
-        if (!gameOver) {
-            enemies.push(enemy);
-        }
+        enemies.push(enemy);
     }
 
     function spawnTowerEnemy() {
+        if (gameOver || isGamePaused) return;
         var towerEnemy = {
             x: rand(0, 1950),
             y: rand(0, 1950),
@@ -193,7 +200,7 @@
             cooldown: 0,
         };
 
-        if (!gameOver && towerUnlocked) {
+        if (towerUnlocked) {
             towerEnemies.push(towerEnemy);
         }
     }
@@ -490,7 +497,10 @@
                     coins.push(coin);
                     enemies.splice(i, 1);
                     player.killCount++;
-                    localStorage.setItem("totalKills", Number(localStorage.getItem("totalKills")) + 1);
+                    localStorage.setItem(
+                        "totalKills",
+                        Number(localStorage.getItem("totalKills")) + 1
+                    );
                     i--;
                 }
                 coins.forEach((coin) => {
@@ -527,7 +537,10 @@
                     coins.push(coin);
                     towerEnemies.splice(i, 1);
                     player.killCount++;
-                    localStorage.setItem("totalKills", Number(localStorage.getItem("totalKills")) + 1);
+                    localStorage.setItem(
+                        "totalKills",
+                        Number(localStorage.getItem("totalKills")) + 1
+                    );
                     i--;
                 }
                 coins.forEach((coin) => {
@@ -566,7 +579,7 @@
         requestAnimationFrame(draw);
     }
     function tick() {
-        if (gameOver) return;
+        if (gameOver || isGamePaused) return;
 
         if (keys.w) {
             player.y -= player.speed;
@@ -755,7 +768,10 @@
             ) {
                 player.money += coins[i].value;
                 localStorage.setItem("balance", player.money);
-                localStorage.setItem("totalCoins", Number(localStorage.getItem("totalCoins")) + 1);
+                localStorage.setItem(
+                    "totalCoins",
+                    Number(localStorage.getItem("totalCoins")) + 1
+                );
                 coins.splice(i, 1);
                 i--;
             } else {
@@ -784,13 +800,25 @@
             ctx.fillStyle = "black";
             ctx.textAlign = "center";
             ctx.fillText("You Died", canvas.width / 2, canvas.height / 2);
-            localStorage.setItem("totalDeaths", Number(localStorage.getItem("totalDeaths")) + 1);
+            localStorage.setItem(
+                "totalDeaths",
+                Number(localStorage.getItem("totalDeaths")) + 1
+            );
             return;
         }
     }
 
+    let isGamePaused = false;
+
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+            isGamePaused = !isGamePaused;
+        }
+    });
+
     document.getElementById("start-button").addEventListener("click", init);
     function init() {
+        if (isGamePaused) return;
         setInterval(tick, 10);
 
         requestAnimationFrame(draw);
